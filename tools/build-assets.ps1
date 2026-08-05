@@ -20,6 +20,15 @@ if (-not (Test-Path -LiteralPath $dest)) { New-Item -ItemType Directory -Force -
 
 # web name -> [ file in ppt\media, original deck page, what it is ]
 $map = [ordered]@{
+  'p02-laurel'       = @('image71.png', 'p2',  '3DAR - VR Awards laurel')
+  'p03-gloomy'       = @('image7.png',  'p3',  'Gloomy Eyes key art')
+  'p03-gloomy-logo'  = @('image46.png', 'p3',  'Gloomy Eyes wordmark')
+  'p04-birds'        = @('image23.jpg', 'p4',  'Paper Birds key art')
+  'p04-birds-logo'   = @('image45.png', 'p4',  'Paper Birds wordmark')
+  'p04-birds-cast'   = @('image14.png', 'p4',  'Edward Norton and Joss Stone')
+  'p05-eggscape'     = @('image28.png', 'p5',  'Eggscape gameplay')
+  'p05-eggscape-logo'= @('image29.png', 'p5',  'Eggscape wordmark')
+  'p05-nasdaq'       = @('image78.png', 'p5',  'Eggscape on the Nasdaq tower')
   'p01-cover'        = @('image12.png', 'p1',  'Key art - Luis crossing, Opi shadow')
   'p07-title'        = @('image30.jpg', 'p7',  'Title card')
   'p09-format'       = @('image34.png', 'p9',  'Headset, looking into a miniature world')

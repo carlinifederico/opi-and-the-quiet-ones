@@ -2,7 +2,7 @@
 
 Live: **https://carlinifederico.github.io/opi-and-the-quiet-ones/**
 
-16 slides, 7:00. Static site, no build step, no external requests — it runs with
+19 slides, 7:00. Static site, no build step, no external requests — it runs with
 the venue wifi off. Headlines in English; the presenter notes are in Spanish and
 hidden by default.
 
@@ -32,25 +32,50 @@ that's the PDF you can email.
 | # | slide | deck page | s |
 |---|---|---|---|
 | 1 | Key art, untouched | p1 | 10 |
-| 2 | 3DAR, 2012 → 2027 | p2–p5 | 40 |
-| 3 | 2026. We landed here | p6 | 6 |
-| 4 | Title card | p7 | 5 |
-| 5 | Why does being alone terrify us so much? | p8 | 15 |
-| 6 | Loneliness didn't arrive with the screens | p8 comment | 22 |
-| 7 | Visiting solitudes, in a 30-minute journey through silence | p9 | 25 |
-| 8 | Opi is the shape loneliness takes | p10 | 25 |
-| 9 | Crossed lives that barely touch | p11 | 20 |
-| 10 | **Synopsis** — slideshow over p13 → p33, 18 beats | p12 | 120 |
-| 11 | We want you to come out less afraid of being alone | p12 comment | 20 |
-| 12 | "Every screen we ever built points outward…" | p33 | 20 |
-| 13 | The VR piece is one door | p34 | 30 |
-| 14 | Prototype-ready + 4-month timeline | p35 | 25 |
-| 15 | Looking for the right partners | p35 | 25 |
-| 16 | No loneliness is ever entirely alone | p36 | 12 |
+| 2 | About us — 3DAR since 2004 | p2 | 13 |
+| 3 | Gloomy Eyes | p3 | 10 |
+| 4 | Paper Birds | p4 | 10 |
+| 5 | Eggscape | p5 | 10 |
+| 6 | 2026. We landed here | p6 | 6 |
+| 7 | Title card | p7 | 6 |
+| 8 | Why does being alone terrify us so much? | p8 | 18 |
+| 9 | Loneliness didn't arrive with the screens | p8 comment | 20 |
+| 10 | Visiting solitudes, in a 30-minute journey through silence | p9 | 25 |
+| 11 | Opi is the shape loneliness takes | p10 | 25 |
+| 12 | Crossed lives that barely touch | p11 | 20 |
+| 13 | **Synopsis** — slideshow over p13 → p33, 18 beats, letterboxed | p12 | 120 |
+| 14 | We want you to come out less afraid of being alone | p12 comment | 18 |
+| 15 | "Every screen we ever built points outward…" | p33 | 18 |
+| 16 | The VR piece is one door | p34 | 28 |
+| 17 | Prototype-ready + 4-month timeline | p35 | 24 |
+| 18 | Looking for the right partners | p35 | 24 |
+| 19 | No loneliness is ever entirely alone | p36 | 15 |
 
 Total **7:00**. The timer reads these from `data-budget` on each `<section>` —
 change a number there and the timer follows.
 
+## Design
+
+**The gold** (`--gold: #F5B722`) is Opi's eyes and the only colour in the deck
+that isn't the art. It carries the running rules, the section labels, the page
+number, the beat bar, the awards, the accented word in every headline, and the
+logo at the two title moments.
+
+**One hand.** The display face is Shantell Sans — the same hand-drawn register as
+the charcoal logo. Everything else is Archivo. There is no third voice.
+
+**The logo** is `MAT/LOGO/mat/omni-c73c64e6…png`, keyed out of its grey card by
+`tools/build-assets.ps1` (alpha derived from the ink, so the spray texture
+survives) and re-inked twice: cream for the running head, gold for the title card
+and the closing frame.
+
+**Devices**, borrowed from the references in `REFS/PITCH DECK`:
+a running head and foot on every page with a hairline gold rule, so it reads as a
+bound bible rather than a stack of rectangles; film grain and a vignette over
+everything; headlines big enough to bleed past the frame, one of them blended
+into the art; hand-written notes in gold with a drawn underline; outlined gold
+years on the project pages; the synopsis letterboxed to 2.39:1 for two minutes;
+and a billing block on the closing frame.
 The eight open comments on the Slides are all answered: the hook opens with
 distance instead of blaming technology (p8), the closing quote is used to close
 (p9), Opi is introduced as one of many (p10), the synopsis runs as a slideshow
@@ -61,7 +86,7 @@ and states the objective (p12 ×3), and the feature treatment is written out (p3
 Everything is in three files: `index.html`, `assets/css/deck.css`,
 `assets/js/deck.js`.
 
-**The synopsis** (slide 10) — the images are the `<figure>`s inside `.show`, the
+**The synopsis** (slide 13) — the images are the `<figure>`s inside `.show`, the
 captions are the JSON array in `#synopsis-beats`, one `["the deck's own headline",
 "what Opi learns"]` pair per image, in the same order. Pages with no headline in
 the original get an empty string and show the image alone. `data-beat="6700"` is
@@ -99,10 +124,10 @@ the deck, put it on Vimeo and link it.
 ## Still to confirm
 
 - **Eggscape's award year.** The Slides contradicts itself — p2 says Golden Lion
-  2022, p5 says 2023 plus a Gamechangers award in 2024. The timeline uses the
+  2022, p5 says 2023 plus a Gamechangers award in 2024. The About page uses the
   appendix version: *Golden Lion for Best Immersive Experience, Venezia 2022*.
 - **The 80 / 20 financing split**, and whether a dollar figure goes next to it.
-- **The feature treatment** on slide 13 is a first pass to react to, not a
+- **The feature treatment** on slide 16 is a first pass to react to, not a
   decision — it's marked as a proposal on the slide.
 - The key art still carries the "repintar / digital" note from the Slides.
 
