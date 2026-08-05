@@ -48,15 +48,6 @@ img{display:block;max-width:100%}
 .bg{position:absolute;inset:0;overflow:hidden;background:var(--ink)}
 .bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.045);transition:transform 9s linear;filter:saturate(1.02)}
 .is-active .bg img{transform:scale(1)}
-/* a square diorama floating in its own void — feather its edges into the page */
-.bg--float{left:34%}
-.bg--float img{
-  object-fit:contain;object-position:50% 50%;transform:scale(1.03);
-  -webkit-mask-image:radial-gradient(ellipse 74% 74% at 50% 50%,#000 62%,transparent 96%);
-          mask-image:radial-gradient(ellipse 74% 74% at 50% 50%,#000 62%,transparent 96%);
-}
-.is-active .bg--float img{transform:scale(1)}
-@media (max-width:900px){.bg--float{left:0}}
 /* mirrored so Opi sits on the empty side, clear of the copy */
 .bg--flip img{transform:scaleX(-1) scale(1.045)}
 .is-active .bg--flip img{transform:scaleX(-1) scale(1)}
@@ -71,6 +62,7 @@ img{display:block;max-width:100%}
 .scrim--bottom{background:linear-gradient(0deg,rgba(6,7,10,.95) 0%,rgba(6,7,10,.72) 24%,rgba(6,7,10,.18) 56%,rgba(6,7,10,.42) 100%)}
 .scrim--right{background:linear-gradient(260deg,rgba(6,7,10,.96) 0%,rgba(6,7,10,.90) 34%,rgba(6,7,10,.62) 56%,rgba(6,7,10,.20) 78%,rgba(6,7,10,.40) 100%)}
 .scrim--veil{background:rgba(6,7,10,.62)}
+.scrim--corner{background:linear-gradient(180deg,rgba(6,7,10,.72) 0%,rgba(6,7,10,.10) 18%,rgba(6,7,10,0) 45%,rgba(6,7,10,.30) 82%,rgba(6,7,10,.78) 100%)}
 .scrim--soft{background:linear-gradient(0deg,rgba(6,7,10,.88) 0%,rgba(6,7,10,.30) 40%,rgba(6,7,10,.10) 70%,rgba(6,7,10,.45) 100%)}
 
 /* ---------- content blocks ---------- */
@@ -113,10 +105,22 @@ em{font-style:italic}
 }
 
 /* small print row at the very bottom of a slide */
+.footnote .lead{color:var(--paper)}
 .footnote{
   position:absolute;left:var(--pad);right:var(--pad);bottom:clamp(2.4rem,5vh,3.4rem);z-index:2;
   font-size:clamp(.68rem,.86vw,.8rem);letter-spacing:.02em;color:var(--faint);margin:0;
 }
+
+/* cover: a line pinned to the top, so the key art carries the title itself */
+.topline{
+  position:absolute;top:clamp(1.6rem,3.6vh,2.6rem);left:var(--pad);right:var(--pad);z-index:2;margin:0;
+  font:500 clamp(.62rem,.86vw,.76rem)/1 var(--ui);letter-spacing:.24em;text-transform:uppercase;color:var(--paper);
+}
+
+/* the five lives, as a plain list */
+.names{margin:clamp(1.4rem,3.2vh,2.2rem) 0 0;padding:0;list-style:none;display:grid;gap:.42rem}
+.names li{font-size:clamp(.88rem,1.12vw,1.06rem);color:var(--dim);line-height:1.4}
+.names b{color:var(--paper);font-weight:500;margin-right:.35rem}
 
 /* spec strip */
 .specs{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;margin:clamp(1.6rem,3.4vh,2.4rem) 0 0;padding:0;list-style:none}
@@ -124,7 +128,6 @@ em{font-style:italic}
 .specs li+li{padding-left:1.5rem;border-left:1px solid var(--rule)}
 
 /* ---------- title slide ---------- */
-.title-mark{font-size:clamp(2.6rem,8vw,8.4rem);line-height:.9;letter-spacing:-.02em}
 .byline{margin:clamp(1.4rem,3vh,2rem) 0 0;font-size:clamp(.72rem,.9vw,.84rem);letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
 
 /* ---------- timeline ---------- */
@@ -140,17 +143,6 @@ em{font-style:italic}
 .timeline li.now{border-bottom:none;padding-top:clamp(.7rem,1.8vh,1.2rem)}
 .timeline li.now .ttl{font-family:var(--display);font-size:clamp(1.1rem,1.9vw,1.7rem);font-weight:400}
 .timeline li.now .yr{color:var(--paper)}
-
-/* ---------- five lives ---------- */
-/* li{display:contents} so image / name / line share rows and align across all five */
-.lives{margin:clamp(1.8rem,4vh,3rem) 0 0;padding:0;list-style:none;display:grid;
-  grid-template-columns:repeat(5,1fr);grid-template-rows:auto auto auto;
-  gap:.6rem clamp(.6rem,1.4vw,1.4rem)}
-.lives li{display:contents}
-.lives figure{margin:0;aspect-ratio:4/5;overflow:hidden;background:var(--ink-2);border:1px solid var(--rule)}
-.lives img{width:100%;height:100%;object-fit:cover;filter:grayscale(.18) contrast(1.03)}
-.lives .nm{font-size:clamp(.8rem,1vw,.98rem);font-weight:500;letter-spacing:.02em}
-.lives .ds{font-size:clamp(.7rem,.88vw,.82rem);color:var(--faint);line-height:1.35;display:block}
 
 /* ---------- synopsis slideshow ---------- */
 .show{position:absolute;inset:0}
@@ -275,8 +267,6 @@ body.touched .help{opacity:0}
 /* ---------- responsive ---------- */
 @media (max-width:900px){
   .cols{grid-template-columns:1fr;gap:1.6rem}
-  .lives{grid-template-columns:repeat(3,1fr)}
-  .lives li:nth-child(n+4){grid-column:span 1}
   .gantt{grid-template-columns:repeat(2,1fr);gap:1rem}
   .timeline li{grid-template-columns:3.6rem 1fr;row-gap:.1rem}
   .timeline .meta{grid-column:2}
@@ -285,7 +275,6 @@ body.touched .help{opacity:0}
   .help{display:none}
 }
 @media (max-width:620px){
-  .lives{grid-template-columns:repeat(2,1fr)}
   .specs li+li{padding-left:0;border-left:none}
 }
 

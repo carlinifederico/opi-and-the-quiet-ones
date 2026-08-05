@@ -2,9 +2,14 @@
 
 Live: **https://carlinifederico.github.io/opi-and-the-quiet-ones/**
 
-18 slides, ~7 minutes. Static site, no build step, no external requests — it runs
-with the venue wifi off. Headlines in English; the presenter notes are in Spanish
-and hidden by default.
+16 slides, 7:00. Static site, no build step, no external requests — it runs with
+the venue wifi off. Headlines in English; the presenter notes are in Spanish and
+hidden by default.
+
+Every image and every headline comes from the Google Slides
+[OPI AND THE QUIET ONES | Venice Pitch Deck STRUCTURE](https://docs.google.com/presentation/d/1mwgtz6ICPVdQ9cslkzLoaliqTfGHmQmKZ9qU8iwr4BI/).
+Files in `assets/img/` are named after the deck page they came from, so anything
+on screen can be traced back to its slide.
 
 ## Presenting
 
@@ -18,40 +23,49 @@ and hidden by default.
 | `F` | fullscreen |
 | `Esc` | close notes / overview |
 
-Swipe works on touch, and clicking the left/right edge of the screen moves too.
-`#/7` in the URL opens straight at slide 7.
+Swipe works on touch, and clicking the left/right edge moves too. `#/7` in the
+URL opens straight at slide 7. `Ctrl+P` prints one slide per landscape page —
+that's the PDF you can email.
 
-`Ctrl+P` prints one slide per landscape page — that's the PDF you can email.
+## Structure — mapped to the original deck
 
-## Structure
+| # | slide | deck page | s |
+|---|---|---|---|
+| 1 | Key art, untouched | p1 | 10 |
+| 2 | 3DAR, 2012 → 2027 | p2–p5 | 40 |
+| 3 | 2026. We landed here | p6 | 6 |
+| 4 | Title card | p7 | 5 |
+| 5 | Why does being alone terrify us so much? | p8 | 15 |
+| 6 | Loneliness didn't arrive with the screens | p8 comment | 22 |
+| 7 | Visiting solitudes, in a 30-minute journey through silence | p9 | 25 |
+| 8 | Opi is the shape loneliness takes | p10 | 25 |
+| 9 | Crossed lives that barely touch | p11 | 20 |
+| 10 | **Synopsis** — slideshow over p13 → p33, 18 beats | p12 | 120 |
+| 11 | We want you to come out less afraid of being alone | p12 comment | 20 |
+| 12 | "Every screen we ever built points outward…" | p33 | 20 |
+| 13 | The VR piece is one door | p34 | 30 |
+| 14 | Prototype-ready + 4-month timeline | p35 | 25 |
+| 15 | Looking for the right partners | p35 | 25 |
+| 16 | No loneliness is ever entirely alone | p36 | 12 |
 
-| | slide | s |
-|---|---|---|
-| **Cover** | Opi and the Quiet Ones | 12 |
-| **Where we come from** | 3DAR, 2012 → 2027 · 2026, we landed here | 44 |
-| **The hook** | Why does being alone terrify us? · It didn't arrive with the screens · The fear is the illness | 54 |
-| **The experience** | Visiting solitudes · VR is lonely by nature | 35 |
-| **Opi** | The shape loneliness takes · There are many of them | 38 |
-| **The story** | Five lives · Synopsis (13 beats) · What it's for · The VR quote | 160 |
-| **Scale** | The VR piece is one door | 26 |
-| **Where we are / the ask** | Prototype-ready + 4-month timeline · What we're looking for | 44 |
-| **Close** | No loneliness is ever entirely alone | 12 |
+Total **7:00**. The timer reads these from `data-budget` on each `<section>` —
+change a number there and the timer follows.
 
-Total target: **7:05**. The timer reads these from `data-budget` on each
-`<section>` — change a number there and the timer follows.
+The eight open comments on the Slides are all answered: the hook opens with
+distance instead of blaming technology (p8), the closing quote is used to close
+(p9), Opi is introduced as one of many (p10), the synopsis runs as a slideshow
+and states the objective (p12 ×3), and the feature treatment is written out (p33).
 
 ## Editing
 
 Everything is in three files: `index.html`, `assets/css/deck.css`,
 `assets/js/deck.js`.
 
-**Adding or moving a slide** — copy a `<section class="slide">` block. `data-chapter`
-is the label in the bottom-right, `data-budget` is its share of the seven minutes.
-
-**The synopsis** (slide 12) — the images are the `<figure>`s inside `.show`, the
-captions are the JSON array in `#synopsis-beats`, one `["what happens", "what Opi
-learns"]` pair per image, in the same order. `data-beat="8000"` is the autoplay
-interval in ms.
+**The synopsis** (slide 10) — the images are the `<figure>`s inside `.show`, the
+captions are the JSON array in `#synopsis-beats`, one `["the deck's own headline",
+"what Opi learns"]` pair per image, in the same order. Pages with no headline in
+the original get an empty string and show the image alone. `data-beat="6700"` is
+the autoplay interval in ms.
 
 **Removing the presenter notes when the deck is final** — every note is wrapped in
 
@@ -65,39 +79,35 @@ Delete those blocks and the `.notes` rules in the CSS. Nothing else depends on t
 
 ## Images
 
-`assets/img/*.webp` are web-sized copies. The originals live on the shared drive at
-`H:\Shared drives\BROTACIONES\THE SILENCE BETWEEN\` — `tools/build-assets.ps1` maps
-each name to its source and re-encodes with ffmpeg (2200px wide, WebP q80, 7–25 MB
-PNG → 40–400 KB). Re-run it after any art update:
+`tools/build-assets.ps1` re-encodes them from the Slides export:
 
-```
-powershell -ExecutionPolicy Bypass -File tools\build-assets.ps1
-```
+1. File > Download > Microsoft PowerPoint (.pptx) from the Google Slides
+2. unzip it, then `$env:OPI_PPTX_MEDIA = "…\ppt\media"`
+3. `powershell -ExecutionPolicy Bypass -File tools\build-assets.ps1`
 
-Two notes on the art:
+The script maps each web filename to its source file **and its deck page**, and
+resizes to 2200px WebP (11–310 KB each, ~2.5 MB total). Re-run it whenever the
+art in the Slides changes.
 
-- The cover uses `SCX_Encuentro` (the gas station diorama). The crosswalk key art
-  in the Google Slides only exists inside that document — drop the file on the
-  shared drive and add it to `build-assets.ps1` to swap it in.
-- The cinema shot on the IP slide is **mirrored** in CSS (`.bg--flip`) so Opi sits
-  clear of the copy. Remove that class to see it the right way round.
+One liberty taken: the cinema shot on the Opi slide is **mirrored** in CSS
+(`.bg--flip`) so Opi sits clear of the copy. Remove that class to see it the
+right way round.
 
-The Venice video (1.2 GB) is deliberately not in this repo. If it should be in the
-deck, put it on Vimeo and link it.
+The Venice video (1.2 GB) is deliberately not in this repo. If it should be in
+the deck, put it on Vimeo and link it.
 
 ## Still to confirm
 
-- **Eggscape's award year.** The Google Slides contradicts itself — p2 says Golden
-  Lion 2022, p5 says 2023 plus a Gamechangers award in 2024. The timeline uses the
+- **Eggscape's award year.** The Slides contradicts itself — p2 says Golden Lion
+  2022, p5 says 2023 plus a Gamechangers award in 2024. The timeline uses the
   appendix version: *Golden Lion for Best Immersive Experience, Venezia 2022*.
-- **The 80 / 20 financing split** on the ask slide, and whether a dollar figure goes
-  next to it.
-- **The feature treatment** on the IP slide is a first pass to react to, not a
+- **The 80 / 20 financing split**, and whether a dollar figure goes next to it.
+- **The feature treatment** on slide 13 is a first pass to react to, not a
   decision — it's marked as a proposal on the slide.
-- The cover art still carries the "repintar / digital" note from the Slides.
+- The key art still carries the "repintar / digital" note from the Slides.
 
 ## Deploy
 
-Push to `main`; GitHub Pages serves the root. `robots.txt` and a `noindex` meta tag
-keep it out of search results — the repo is public, so treat the URL as the only
-thing standing between this and the world.
+Push to `main`; GitHub Pages serves the root. `robots.txt` and a `noindex` meta
+tag keep it out of search results — the repo is public, so treat the URL as the
+only thing standing between this and the world.
