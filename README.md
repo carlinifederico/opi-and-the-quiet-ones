@@ -13,8 +13,13 @@ following the structure of the Google Slides
 | Forward | `→` `↓` `Space` `Enter`, scroll down, swipe up, or the `›` arrow |
 | Back | `←` `↑` `Backspace`, scroll up, swipe down, `‹` |
 | Jump | `Home` / `End`, or a deep link — `/#12` opens the story slideshow |
-| Story synopsis | the eye button, top right of screen 12 |
+| Presenter notes | `N`, or the **notas** tab bottom left. `Esc` closes it |
 | Teaser sound | the `sound` button, bottom right of screen 7 |
+
+The notes drawer carries every annotation from the Google Slides, sorted per screen, with the
+load-bearing ideas in **bold** and the ones not to forget <u>underlined</u>. Nothing in there is
+invented — it is the deck's own working text, the comments on it, and the synopsis, reorganised.
+The story synopsis lives in the notes for screen 12.
 
 The teaser plays **with sound** as long as you have already pressed a key or clicked
 (you will have, getting there). Cold-opening straight to `/#7` starts it muted — browsers
@@ -40,9 +45,13 @@ do not allow otherwise.
 | 16 | 32 | What we're looking for |
 | 17 | 33 | No loneliness is ever entirely alone |
 
-Screen 12 covers deck pages 12→28 in one loop: 16 scenes at 2s each, so a full pass is 32s
-and it keeps cycling for as long as you keep talking. To slow it down, change `--beat` in
-`assets/css/deck.css` — that one value drives both the CSS and the JS.
+Screen 12 covers deck pages 12→28: 16 scenes at 2s each, then it **holds on the last frame** until
+you move on. To slow it down, change `--beat` in `assets/css/deck.css` — that one value drives
+both the CSS and the JS.
+
+Screen 14 puts the key art inside a streaming frame — the film shown in the medium it would
+live in — over the three acts. No body copy on screen; the treatment and the character work are
+in the notes.
 
 ## Assets
 
@@ -73,9 +82,9 @@ has to work on a festival wifi, or none.
 
 ## Open
 
-- **Festival laurel strip on screen 2** is set in type as a stand-in. The real logos are not
-  anywhere on the drive; they live inside the Google Slides as flattened slide art. Needs a
-  transparent PNG strip to drop in.
+- **The cast portraits and award marks** on screens 3–5 were lifted out of the Google Slides
+  render, so they are only as sharp as the deck's own copies (~120–260px). Fine at the size they
+  are shown; originals would be better.
 - **The 3dar loop** comes from a 560×315 GIF, so it is soft at full-bleed. A higher-res source
   would fix it.
 - **Language** is mixed on purpose for now: screens 8 and 9 in Spanish as dictated, the rest
