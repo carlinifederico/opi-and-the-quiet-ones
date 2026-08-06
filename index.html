@@ -1,447 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow">
-<meta name="description" content="OPI AND THE QUIET ONES — an immersive VR experience about the solitudes we never talk about. 3DAR, Buenos Aires.">
-<meta name="theme-color" content="#08080A">
-<title>OPI AND THE QUIET ONES · 3DAR</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20fill='%2308080A'/%3E%3Ccircle%20cx='11.5'%20cy='16'%20r='3.6'%20fill='%23F5B722'/%3E%3Ccircle%20cx='20.5'%20cy='16'%20r='3.6'%20fill='%23F5B722'/%3E%3C/svg%3E">
-<link rel="preload" href="assets/fonts/shantell-800.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/img/p01-cover.webp" as="image">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Opi and the Quiet Ones — Venice Pitch</title>
 <link rel="stylesheet" href="assets/css/deck.css">
+<link rel="preload" href="assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2308080A'/><circle cx='12' cy='15' r='3.4' fill='%23F5B722'/><circle cx='21' cy='15' r='3.4' fill='%23F5B722'/></svg>">
+</head>
+<body>
 
-<div class="progress" id="progress"></div>
+<main id="deck">
 
-<main class="deck" id="deck"><!-- ══ 01 · COVER — deck p1 ══════════════════════════════ -->
-<section class="slide at-end" data-chapter="Cover" data-budget="10" data-label="Opi and the Quiet Ones">
-  <div class="bg"><img src="assets/img/p01-cover.webp" alt="" fetchpriority="high"></div>
-  <div class="scrim scrim--bottom"></div>
-  <div class="content content--wide coverblock">
-    <p class="presents">3DAR presents</p>
-    <p class="covermeta">An immersive VR experience · 30 min · Unreal Engine<br>
-      Directed by Jorge Tereso · Federico Carlini · Fernando Maldonado</p>
-  </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>10 seg.</b> El arte ya trae el título pintado en la calle. Nombre, estudio, y seguir.</p>
-    <p class="warn">⚠︎ Arte pendiente: «Repintar / digital» (comentario del Slides, p1).</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
+<!-- 01 · COVER ─────────────────────────────────────────── -->
+<section class="slide is-on" data-chapter="">
+  <div class="bg"><img src="assets/img/01-cover.webp" alt="Opi and the Quiet Ones" fetchpriority="high"></div>
+  <img class="corner-3dar" src="assets/img/logo-3dar.webp" alt="3dar">
 </section>
 
-<!-- ══ 02 · ABOUT US — deck p2 ═══════════════════════════ -->
-<section class="slide" data-chapter="3DAR" data-budget="13">
-  <div class="content content--wide">
-    <p class="eyebrow">About us <em>— Buenos Aires, since 2004</em></p>
-    <h1 class="h--xs bleed">Twenty years building worlds<br>you enter <span class="gold">alone</span>.</h1>
-    <p class="aboutlead">3DAR is a studio for immersive content, animation and VFX. <strong>Fast Company named it the second most innovative company in Latin America, and one of the top 50 in the world.</strong> Three of its projects redefined how a digital story gets told — and each one is on the next three pages.</p>
-    <ul class="laurels">
-      <li><b>Cristal</b>&nbsp;Annecy</li>
-      <li><b>Emmy</b>&nbsp;nominee</li>
-      <li><b>Golden Lion</b>&nbsp;Venezia</li>
+<!-- 02 · 3DAR ──────────────────────────────────────────── -->
+<section class="slide" data-chapter="The studio">
+  <div class="bg bg--dim">
+    <video src="assets/video/02-about3dar.mp4" autoplay muted loop playsinline preload="auto" data-loop></video>
+  </div>
+  <div class="scrim scrim--full"></div>
+  <div class="hold hold--center">
+    <img class="studiomark" src="assets/img/logo-3dar.webp" alt="3dar">
+    <p class="lede">Buenos Aires, since 2004.<br>Immersive stories, and the tech to hold them.</p>
+  </div>
+  <!-- Stand-in until the real laurel strip arrives — see README -->
+  <ul class="laurels">
+    <li>Sundance</li><li>Tribeca</li><li>SXSW</li><li>Annecy</li>
+    <li>La Biennale di Venezia</li><li>Fast Company — Top 50 Most Innovative</li>
+  </ul>
+</section>
+
+<!-- 03 · GLOOMY EYES ───────────────────────────────────── -->
+<section class="slide" data-chapter="The studio">
+  <div class="bg bg--right"><img src="assets/img/03-gloomy.webp" alt="" loading="lazy"></div>
+  <div class="scrim scrim--bottom"></div>
+  <p class="year">2019</p>
+  <div class="hold hold--bottom">
+    <img class="projmark" src="assets/img/03-gloomy-logo.webp" alt="Gloomy Eyes">
+    <p class="lede">An impossible love story between a zombie boy and a human girl.</p>
+    <ul class="meta">
+      <li class="starring">Narrated by <b>Colin Farrell</b></li>
+      <li>Annecy Cristal</li>
+      <li>Sundance · SXSW</li>
+      <li>Game 2025 · Theme park, Taipei 2027</li>
     </ul>
   </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>16 seg.</b> Es la p2 del Slides, condensada. No leerla: decir 2004, Buenos Aires, y el dato de Fast Company. Después pasar rápido a los tres proyectos.</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
 </section>
 
-<!-- ══ 03 · GLOOMY EYES — deck p3 ════════════════════════ -->
-<section class="slide at-end" data-chapter="3DAR" data-budget="10" data-label="Gloomy Eyes">
-  <div class="bg" data-pos="right"><img src="assets/img/p03-gloomy.webp" alt="" loading="lazy"></div>
+<!-- 04 · PAPER BIRDS ───────────────────────────────────── -->
+<section class="slide" data-chapter="The studio">
+  <div class="bg bg--left"><img src="assets/img/04-birds.webp" alt="" loading="lazy"></div>
   <div class="scrim scrim--bottom"></div>
-  <p class="projyear">2019</p>
-  <div class="content content--wide">
-    <img class="projmark" src="assets/img/p03-gloomy-logo.webp" alt="Gloomy Eyes">
-    <p class="projline">An impossible love story between a zombie boy and a human girl.</p>
-    <ul class="projmeta">
-      <li class="win">Cristal · Annecy</li>
-      <li>Sundance · SXSW · Raindance</li>
-      <li>Narrated by Colin Farrell</li>
-      <li>Multiplatform game, 2025</li>
-      <li>Theme park, Taipei 2027</li>
-    </ul>
-  </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>11 seg.</b> El original de 3DAR que más lejos llegó. Lo importante para después: salió de VR y terminó en juego multiplataforma y parque temático — es el antecedente de la slide de IP.</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
-</section>
-
-<!-- ══ 04 · PAPER BIRDS — deck p4 ════════════════════════ -->
-<section class="slide at-end" data-chapter="3DAR" data-budget="10" data-label="Paper Birds">
-  <div class="bg" data-pos="left"><img src="assets/img/p04-birds.webp" alt="" loading="lazy"></div>
-  <div class="scrim scrim--bottom"></div>
-  <p class="projyear">2020</p>
-  <div class="content content--wide">
-    <img class="projmark projmark--tight" src="assets/img/p04-birds-logo.webp" alt="Paper Birds">
-    <p class="projline">A blind boy with a deep connection to the musical spirits.</p>
-    <ul class="projmeta">
-      <li class="win">Emmy nominee</li>
+  <p class="year">2021</p>
+  <div class="hold hold--bottom">
+    <img class="projmark projmark--tight" src="assets/img/04-birds-logo.webp" alt="Paper Birds">
+    <p class="lede">A blind boy who can hear the spirits of music.</p>
+    <ul class="meta">
+      <li class="starring">Voiced by <b>Edward Norton</b> &amp; <b>Joss Stone</b></li>
+      <li>Emmy nominee</li>
       <li>La Biennale di Venezia</li>
-      <li>Edward Norton &amp; Joss Stone</li>
-      <li>Narrative + interactive</li>
     </ul>
   </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>11 seg.</b> Emmy y Venecia, y los nombres: Edward Norton y Joss Stone. Sirve para decir que sabemos trabajar con talento internacional.</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
 </section>
 
-<!-- ══ 05 · EGGSCAPE — deck p5 ═══════════════════════════ -->
-<section class="slide at-end" data-chapter="3DAR" data-budget="10" data-label="Eggscape">
-  <div class="bg" data-pos="right"><img src="assets/img/p05-eggscape.webp" alt="" loading="lazy"></div>
+<!-- 05 · EGGSCAPE ──────────────────────────────────────── -->
+<section class="slide" data-chapter="The studio">
+  <div class="bg bg--right"><img src="assets/img/05-eggscape.webp" alt="" loading="lazy"></div>
   <div class="scrim scrim--bottom"></div>
-  <p class="projyear">2022</p>
-  <div class="content content--wide">
-    <img class="projmark" src="assets/img/p05-eggscape-logo.webp" alt="Eggscape">
-    <p class="projline">Mixed reality multiplayer — quirky 3D eggs loose in your own room.</p>
-    <ul class="projmeta">
-      <li class="win">Golden Lion · Venezia</li>
+  <p class="year">2026</p>
+  <div class="hold hold--bottom">
+    <img class="projmark" src="assets/img/05-eggscape-logo.webp" alt="Eggscape">
+    <p class="lede">Mixed-reality multiplayer — 3D eggs loose in your own room.</p>
+    <ul class="meta">
+      <li class="starring">Golden Lion · <b>La Biennale di Venezia</b></li>
       <li>Gamechangers 2024</li>
       <li>$4.25M raised</li>
-      <li>Launching 2026</li>
     </ul>
   </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>11 seg.</b> El León de Oro y la plata levantada. Es la prueba de que sabemos llevar una pieza inmersiva a producto.</p>
-    <p class="warn">⚠︎ Verificar el año: la p2 del Slides dice León de Oro <b>2022</b>, la p5 dice 2023 + Gamechangers 2024. Acá va 2022.</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
 </section>
 
-<!-- ══ 03 · 2026 — deck p6 ═══════════════════════════════ -->
-<section class="slide" data-chapter="3DAR" data-budget="6">
-  <div class="content content--center">
-    <h1 class="h--xl gold">2026.</h1>
-    <p class="sub">We landed here.</p>
+<!-- 06 · 2026 ──────────────────────────────────────────── -->
+<section class="slide slide--void" data-chapter="The studio">
+  <div class="hold hold--center">
+    <p class="bigyear">2026</p>
+    <p class="lede lede--wide">We landed here.</p>
   </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes"><p><b>6 seg.</b> Respiro. Silencio de verdad antes del gancho.</p></aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
 </section>
 
-<!-- ══ 07 · TITLE CARD — deck p7 ═════════════════════════ -->
-<section class="slide" data-chapter="The project" data-budget="6" data-label="Title card">
-  <div class="bg" data-pos="right"><img src="assets/img/p07-title.webp" alt="" loading="lazy"></div>
-  <div class="scrim scrim--veil"></div>
-  <div class="content content--center">
-    <img class="titlelogo" src="assets/img/logo-gold.webp" alt="Opi and the Quiet Ones">
-    <p class="covermeta">An immersive VR experience</p>
+<!-- 07 · TEASER ────────────────────────────────────────── -->
+<section class="slide slide--void" data-chapter="The project" data-teaser>
+  <video id="teaser" src="assets/video/07-teaser.mp4" poster="assets/img/07-teaser-poster.webp"
+         playsinline preload="auto"></video>
+  <button id="sound" class="sound" type="button" aria-label="Toggle sound"><span>sound off</span></button>
+</section>
+
+<!-- 08 · MORE ALONE ────────────────────────────────────── -->
+<section class="slide" data-chapter="The hook">
+  <div class="bg bg--right"><img src="assets/img/08-artdir.webp" alt="" loading="lazy"></div>
+  <div class="scrim scrim--left"></div>
+  <div class="hold hold--left">
+    <h1 class="statement">Vivimos en una época<br>más <em>solitaria</em> que antes.</h1>
   </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes"><p><b>6 seg.</b> Portadilla del proyecto, la p7 del Slides. Acá arranca el pitch de verdad. Decir el título en voz alta y pasar.</p></aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
 </section>
 
-<!-- ══ 04 · HOOK — deck p8 ═══════════════════════════════ -->
-<section class="slide" data-chapter="The hook" data-budget="18">
-  <div class="bg" data-pos="right"><img src="assets/img/p12-synopsis.webp" alt="" loading="lazy"></div>
-  <div class="content content--wide">
-    <p class="eyebrow">The hook</p>
-    <h1 class="bleed blend">Why does<br>being <span class="gold">alone</span><br>terrify us<br>so much?</h1>
+<!-- 09 · WHY ───────────────────────────────────────────── -->
+<section class="slide" data-chapter="The hook">
+  <div class="bg bg--right"><img src="assets/img/09-door.webp" alt="" loading="lazy"></div>
+  <div class="hold hold--left">
+    <h1 class="statement">¿Por qué nos aterra<br>tanto la <em>soledad</em>?</h1>
   </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>18 seg.</b> La pregunta sola. Dejarla respirar. No contestarla todavía.</p>
-    <p>Alternativas del Slides: «When was the last time you let yourself feel?» · «Why is it so hard to be alone?»</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
 </section>
 
-<!-- ══ 05 · NOT THE SCREENS — deck p8, comentario ════════ -->
-<section class="slide" data-chapter="The hook" data-budget="20">
-  <div class="content content--wide">
-    <h1 class="h--sm bleed">Loneliness didn't arrive<br>with the <span class="strike">screens</span>.</h1>
-    <p class="sub">It's older than every device we blame for it — and it was never the illness.<br><strong>Our fear of it is.</strong></p>
-    <p class="hand hand--note" style="margin-top:1.6rem">so we're not here to blame the technology</p>
-  </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>22 seg. — la corrección del comentario de la p8:</b> «empezar con más distancia, investigar un poco / arrancar más con la historia de la soledad / <b>no podemos culpar a la tecnología a la soledad</b>».</p>
-    <p>Munición si hace falta: Hopper pintando esto en 1942 · Borges, «la soledad es el destino de todos los espíritus excelentes» · Picasso, «nada puede surgir sin soledad».</p>
-    <p>Lo que sí decimos (está en la p8 del Slides): la interconexión y el ritmo acelerado nos quitan el espacio de parar y sentir. No es culpa del aparato. Acá también entra el ángulo de salud mental, sin cartel de campaña.</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
-</section>
-
-<!-- ══ 06 · THE EXPERIENCE — deck p9 ═════════════════════ -->
-<section class="slide at-end" data-chapter="The experience" data-budget="25">
-  <div class="bg" data-pos="top"><img src="assets/img/p09-format.webp" alt="" loading="lazy"></div>
+<!-- 10 · THE EXPERIENCE ────────────────────────────────── -->
+<section class="slide" data-chapter="The experience">
+  <div class="bg"><img src="assets/img/10-experience.webp" alt="" loading="lazy"></div>
   <div class="scrim scrim--bottom"></div>
-  <div class="content content--wide">
-    <p class="eyebrow">The experience</p>
-    <h1 class="h--sm bleed">Visiting <span class="gold">solitudes</span>,<br>in a 30-minute journey through silence.</h1>
-    <p class="hand" style="margin-top:1.1rem">miniature worlds &nbsp;·&nbsp; single player &nbsp;·&nbsp; Unreal &nbsp;·&nbsp; standalone VR &nbsp;·&nbsp; 13+</p>
+  <div class="hold hold--bottom">
+    <h1 class="statement statement--sm">Visiting <em>solitudes</em>,<br>in a 30-minute journey through silence.</h1>
   </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>25 seg.</b> Acá se entiende el formato sin explicarlo: uno se asoma a soledades en miniatura. No hablar de escala ni de técnica — la imagen ya lo dice.</p>
-    <p>Y el marco de cómo trabajamos: <b>el VR es solitario de por sí; en vez de escaparle, lo usamos a favor.</b> La cita larga sobre esto va al final del bloque de historia — no la quemes acá.</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
 </section>
 
-<!-- ══ 07 · OPI — deck p10 ═══════════════════════════════ -->
-<section class="slide" data-chapter="Opi" data-budget="25">
-  <div class="bg bg--flip"><img src="assets/img/p10-opi.webp" alt="" loading="lazy"></div>
+<!-- 11 · OPI ───────────────────────────────────────────── -->
+<section class="slide" data-chapter="Opi">
+  <div class="bg bg--left"><img src="assets/img/11-opi.webp" alt="" loading="lazy"></div>
+  <div class="scrim scrim--right"></div>
+  <div class="hold hold--right">
+    <h1 class="statement">Opi is the shape<br><em>loneliness</em> takes.</h1>
+  </div>
+</section>
+
+<!-- 12 · THE STORY ─────────────────────────────────────── -->
+<section class="slide slide--story" data-chapter="The story" data-story>
+  <div class="show" id="show">
+    <figure class="on"><img src="assets/img/scenes/01.webp" alt="" fetchpriority="low"></figure>
+    <figure><img src="assets/img/scenes/02.webp" alt="" loading="lazy"></figure>
+    <figure><img src="assets/img/scenes/03.webp" alt="" loading="lazy"></figure>
+    <figure><img src="assets/img/scenes/04.webp" alt="" loading="lazy"></figure>
+    <figure><img src="assets/img/scenes/05.webp" alt="" loading="lazy"></figure>
+    <figure><img src="assets/img/scenes/06.webp" alt="" loading="lazy"></figure>
+    <figure><img src="assets/img/scenes/07.webp" alt="" loading="lazy"></figure>
+    <figure><img src="assets/img/scenes/08.webp" alt="" loading="lazy"></figure>
+    <figure><img src="assets/img/scenes/09.webp" alt="" loading="lazy"></figure>
+    <figure><img src="assets/img/scenes/10.webp" alt="" loading="lazy"></figure>
+    <figure><img src="assets/img/scenes/11.webp" alt="" loading="lazy"></figure>
+    <figure><img src="assets/img/scenes/12.webp" alt="" loading="lazy"></figure>
+    <figure><img src="assets/img/scenes/13.webp" alt="" loading="lazy"></figure>
+    <figure><img src="assets/img/scenes/14.webp" alt="" loading="lazy"></figure>
+    <figure><img src="assets/img/scenes/15.webp" alt="" loading="lazy"></figure>
+    <figure><img src="assets/img/scenes/16.webp" alt="" loading="lazy"></figure>
+  </div>
+  <p class="ghosttitle">The story</p>
+
+  <button id="eye" class="eye" type="button" aria-expanded="false" aria-controls="synopsis" title="Synopsis">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path class="e-open" d="M1.6 12S5.6 5 12 5s10.4 7 10.4 7-4 7-10.4 7S1.6 12 1.6 12Z"/><circle class="e-open" cx="12" cy="12" r="3.1"/><path class="e-slash" d="M4 20 20 4"/></svg>
+  </button>
+
+  <aside id="synopsis" class="synopsis" hidden>
+    <p>Opi es la forma que toma la soledad: solo existe cuando alguien queda solo. Aparece al lado de Simón, once años, que quedó solo sin merecerlo, a quien ni siquiera sabe cómo acercarse. Después Zulma, que busca a alguien entre los andenes del subte y se siente más sola cuanto más gente la rodea. Luci, recién separada, que se convence de que necesita estar sola y se refugia en lo conocido. Luis, que quizá nunca tuvo tiempo para nadie y ya hizo las paces con la quietud de su rutina. Son cuatro, pero hay muchas más. Opi las visita a todas sin entender qué vino a hacer.</p>
+    <p>Vuelve a encontrarse con Simón, sentado en una hamaca que nadie empuja. El chico decide dar un paso adelante, y ese gesto abre un mundo de fantasía donde por fin se conectan. Ahí Opi descubre que puede mover las cosas: que una soledad puede significar algo, empujar a alguien hacia adelante, enseñarle algo. Que su trabajo es unir el silencio que hay entre cada historia.</p>
+    <p>Al final queda Opi solo. Y es el espectador el que se queda a hacerle compañía.</p>
+  </aside>
+</section>
+
+<!-- 29 · THE REFLECTION ────────────────────────────────── -->
+<section class="slide slide--void" data-chapter="The reflection">
+  <div class="hold hold--center">
+    <blockquote class="quote">
+      Todas las pantallas que construimos apuntan hacia afuera.
+      La VR es la primera que apunta hacia adentro.
+      Es la única tecnología del mundo que te pide estar solo
+      y todos la tratan como un <em>defecto a corregir</em>.
+      <br>Nosotros la tratamos como el <em>motivo</em>.
+    </blockquote>
+  </div>
+</section>
+
+<!-- 30 · THE FEATURE ───────────────────────────────────── -->
+<section class="slide" data-chapter="The IP">
+  <div class="bg bg--right bg--dim"><img src="assets/img/30-roses.webp" alt="" loading="lazy"></div>
   <div class="scrim scrim--left"></div>
-  <div class="content content--mid">
-    <p class="eyebrow">Our guide</p>
-    <h1 class="h--sm bleed">Opi is the shape<br><span class="gold">loneliness</span> takes.</h1>
-    <p class="sub">The quiet watcher who only exists while you're alone. There are many of them — Opi is one.</p>
-    <p class="hand" style="margin-top:1.3rem">he doesn't want you to be alone.<br>he is freed when you're not.</p>
+  <div class="hold hold--left">
+    <p class="eyebrow">If this were a feature</p>
+    <ol class="acts">
+      <li><span>I</span><p>A city of solitudes, not four. Every window, another Opi standing next to someone who can't see him.</p></li>
+      <li><span>II</span><p>Ours breaks the rule and touches. Colour floods a grey world — and the other Opis notice.</p></li>
+      <li><span>III</span><p>To free them he has to become the one thing he was never allowed to be: company. He stays.</p></li>
+    </ol>
   </div>
-  <p class="footnote">We'll show you four of these lives. There are many more.</p>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>25 seg.</b> Presentarlo como <b>protagonista</b>, no como visitante. Inocente como un chico pero con una historia larga detrás. «Es como una parca joven» — hay muchas, son como agentes: eso le da contexto y justifica que aparezca en situaciones tan distintas.</p>
-    <p><b>El giro del proyecto, y su objetivo:</b> Opi no se alimenta de la soledad para sí. Quiere que la gente se acompañe, y se libera cuando dejan de estar solos.</p>
-    <p>Comentario de la p10: «les contamos 4 pero hay muchas más» — promesa de misterio.</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
 </section>
 
-<!-- ══ 08 · HISTORIA — deck p11 ══════════════════════════ -->
-<section class="slide" data-chapter="The story" data-budget="20">
-  <div class="content content--wide">
-    <p class="eyebrow">The story</p>
-    <h1 class="h--xs bleed">Crossed lives that barely touch.<br>Someone walks them, and <span class="gold">ties them together</span>.</h1>
-    <ul class="names">
-      <li><b>Simón</b> hiding from a funeral inside a cabinet</li>
-      <li><b>Zulma</b> who made a home of the subway</li>
-      <li><b>Lucy</b> running so she doesn't have to pick up</li>
-      <li><b>Luis</b> twenty years of the same Friday</li>
-      <li><b>Seraphine</b> a cake, and one candle</li>
+<!-- 31 · STATUS ────────────────────────────────────────── -->
+<section class="slide slide--void" data-chapter="Where we are">
+  <div class="hold hold--center">
+    <h1 class="statement statement--sm">Prototype-ready.</h1>
+    <ul class="rows">
+      <li><b>Narrative</b><span>Treatment written, synopsis locked</span></li>
+      <li><b>Art direction</b><span>Validated — everything you just saw</span></li>
+      <li><b>Phase 1</b><span>Two playable scenes · script V1</span></li>
+      <li><b>Build</b><span>Unreal · standalone VR · single player · ~30 min</span></li>
     </ul>
-    <p class="hand" style="margin-top:1.4rem">tying those stories together is what his life is for</p>
   </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>20 seg.</b> Las costuras, de la p11 del Slides: <b>el soltero con la soltera</b> — cuando Opi ve a Lucy tan perdida, se va a buscar a alguien para ella. <b>El niño con la abuela</b> — ya están conectados, ahí cierra el círculo. <b>Zulma</b> queda suelta a propósito: es la excepción, la que le enseña que hay soledades que no se curan.</p>
-    <p>«The silence between them… that no one can hear.»</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
 </section>
 
-<!-- ══ 09 · SINOPSIS — deck p12, sobre p13→p33 ═══════════ -->
-<section class="slide" id="synopsis" data-chapter="The story" data-budget="120" data-beat="6700" data-label="Synopsis — the deck's own scenes, p13 → p33">
-  <div class="show">
-    <figure class="on"><img src="assets/img/p13-velorio.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p14-subte.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p15-vagon.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p16-zulma.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p17-lucy.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p18-laberinto.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p19-limpiavidrio.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p20-casa.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p21-super.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p22-baile.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p23-auto.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p24-auto2.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p25-parada.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p26-encuentro.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p27-encuentro2.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p29-seraphine.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p31-cumple.webp" alt="" loading="lazy"></figure>
-    <figure><img src="assets/img/p33-escenario.webp" alt="" loading="lazy"></figure>
+<!-- 32 · THE ASK ───────────────────────────────────────── -->
+<section class="slide slide--void" data-chapter="What we're looking for">
+  <div class="hold hold--center">
+    <h1 class="statement statement--sm">Looking for the<br>right <em>partners</em>.</h1>
+    <ul class="rows rows--ask">
+      <li><b>Co-production</b><span>An international partner to build Phase 1 with us</span></li>
+      <li><b>Financing</b><span>Prototype through to the full 30 minutes</span></li>
+      <li><b>Distribution</b><span>Festival premiere, then location-based venues</span></li>
+      <li><b>The IP</b><span>Feature, series, installation, toys — the road we already walked with Gloomy Eyes</span></li>
+    </ul>
   </div>
-  <div class="bars"></div>
-  <div class="caption">
-    <p class="beat"></p>
-    <p class="learn"></p>
-  </div>
-  <div class="beats"></div>
-  <script type="application/json" id="synopsis-beats">
-  [
-   ["“In Their Absence.”","the empty space doesn't get filled. sometimes staying is enough."],
-   ["“Sometimes we feel most alone in the middle of a crowd.”",""],
-   ["",""],
-   ["","some solitudes don't get cured. she doesn't need him."],
-   ["“Some run from others just to find quiet… and end up lost in it.”",""],
-   ["","chosen solitude closes like a maze — and the lock is on the inside."],
-   ["“Sometimes routine feels like safety… until you notice it never ends.”",""],
-   ["","a house can be full and still be empty."],
-   ["“When nothing makes sense…",""],
-   ["…the only thing left is to dance.”","here he understands. he stops watching, and acts."],
-   ["“At night, thoughts behave slightly differently.”",""],
-   ["","he wakes Luis. it isn't gentle."],
-   ["",""],
-   ["“Where silences meet.”",""],
-   ["","he crosses them under the rain — then steps aside."],
-   ["“Everyone leaves, sooner or later…",""],
-   ["…except the ones who love you.”",""],
-   ["“Opi stands where you stand, reflecting the side of you no one sees.”","he is one of the ones who leave. his job was never to stay."]
-  ]
-  </script>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>Máximo 2:00.</b> Son las 18 páginas de narrative treatment del Slides (p13 → p33), en orden y con sus frases originales. Avanza solo cada 6,7 s; con ← → lo manejás vos y se corta el automático, <kbd>P</kbd> lo vuelve a poner.</p>
-    <p><b>Comentario de la p12:</b> «contar más qué pasa en la historia, no explicarla tanto». Agarrarse de los tres momentos: <b>cuando le enciende la vela a la vieja, cuando saca a Luis del auto, cuando los junta a ellos dos.</b></p>
-    <p><b>Sinopsis completa (por si se traba):</b> Opi es la forma que toma la soledad: sólo existe cuando alguien queda solo, y al principio no sabe a qué vino. Con Simón, escondido de un velorio, aprende que el vacío no se llena y que a veces alcanza con quedarse. Con Zulma, que hizo del subte su casa, que hay soledades que no se curan. Con Lucy, que corre para no atender el teléfono, que la soledad elegida también se cierra como un laberinto; y con Luis, a dónde lleva ese laberinto después de años. Ahí entiende para qué está: la soledad vino a enseñarles algo y él es el tiempo que hace falta para escucharla. Entonces interviene: hace bailar a Zulma, despierta a Luis, lo cruza con Lucía bajo la lluvia. La última puerta es la de Seraphine, sola en su cumpleaños, hasta que entra Simón y la abraza. Todos se van, tarde o temprano, menos los que te quieren.</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
 </section>
 
-<!-- ══ 10 · EL OBJETIVO — comentario «agregar objetivo» ══ -->
-<section class="slide" data-chapter="The story" data-budget="18">
-  <div class="content content--center">
-    <p class="eyebrow" style="justify-content:center">What it's for</p>
-    <h1 class="h--sm">We want you to come out<br><span class="gold">less afraid</span> of being alone.</h1>
-    <p class="sub">Not a warning about isolation — an argument for solitude. The place that teaches you something, and the only reason company means anything at all.</p>
-  </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>20 seg. — el «agregar objetivo» del comentario de la p12.</b> Reconectar con la soledad y dejar de leerla como amenaza: un espacio donde uno aprende, y que hace falta para valorar la compañía.</p>
-    <p>De la p33 del Slides: <b>«¿Quién es la compañía de ese vacío? ¿Quién se hace cargo de la soledad?»</b> — la compañía, la necesidad del otro, «the importance of a helping hand».</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
-</section>
-
-<!-- ══ 11 · LA FRASE — deck p33 ══════════════════════════ -->
-<section class="slide" data-chapter="The story" data-budget="18">
-  <div class="content content--center">
-    <h2>“Every screen we ever built points outward.<br>VR is the first one that points <span class="gold">inward</span>.</h2>
-    <p class="sub">It's the only technology in the world that asks you to be alone, and everyone treats that as a defect to fix.<br><strong>We treat it as the reason.”</strong></p>
-  </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>20 seg. — comentario de la p9: «usar para cerrar».</b> Es la frase que cierra el bloque de historia y abre el de negocio. Decirla lento. Después, silencio, y recién ahí pasar a IP.</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
-</section>
-
-<!-- ══ 12 · IP — deck p34 ════════════════════════════════ -->
-<section class="slide" data-chapter="Scale" data-budget="28">
-  <div class="bg" data-pos="right"><img src="assets/img/p33-escenario.webp" alt="" loading="lazy"></div>
-  <div class="scrim scrim--veil"></div>
+<!-- 33 · THANKS ────────────────────────────────────────── -->
+<section class="slide" data-chapter="">
+  <div class="bg bg--right"><img src="assets/img/33-thanks.webp" alt="" loading="lazy"></div>
   <div class="scrim scrim--left"></div>
-  <div class="content content--wide">
-    <p class="eyebrow">Scalability / IP</p>
-    <h1 class="h--xs bleed">The VR piece is one door.<br>The <span class="gold">world</span> has many.</h1>
-    <div class="cols">
-      <div class="col">
-        <span class="stamp">The feature — proposal</span>
-        <p><strong>Same five silences. One city, one night that lasts a year.</strong> In the VR piece Opi visits; in the film he belongs to something. We meet the others like him — many Opis, assigned, worn down, each carrying a solitude.</p>
-        <p><strong>The rule is simple, and it's the whole drama:</strong> an Opi exists only while someone is alone. Every loneliness he ends costs him a reason to exist. There is an older one who learned that long ago and now protects loneliness instead of ending it. Opi intervenes anyway — the cake, the dance, the rain — and pays for it.</p>
-        <p class="hand">the scenes don't change. the angle does.</p>
-      </div>
-      <div class="col">
-        <span class="tag">Beyond the film</span>
-        <ul class="stack">
-          <li><b>Installations.</b> Rooms you peer into — one solitude per diorama.</li>
-          <li><b>Series.</b> One silence per episode, one Opi per city.</li>
-          <li><b>Toys &amp; collectibles.</b> The Gloomy Eyes model, already proven.</li>
-          <li><b>Museums &amp; mental health.</b> A use beyond the festival circuit.</li>
-        </ul>
-      </div>
-    </div>
+  <div class="hold hold--left">
+    <h1 class="statement statement--sm">No loneliness is<br>ever <em>entirely alone</em>.</h1>
+    <p class="thanks">Thanks.</p>
   </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>30 seg. — el comentario de la p33 pedía «trabajar en cómo sería un largo de esto para sustentarlo».</b> Esto es un primer planteo para reaccionar, no una decisión tomada.</p>
-    <p>Lo que cambia respecto del VR: las cinco viñetas dejan de ser visitas y pasan a ser tramas que se cruzan; se abre de dónde vienen los Opi y qué les pasa cuando ya no hacen falta; y aparece la tensión que el VR no necesita — el Opi veterano que sostiene que la tarea es preservar la soledad, no terminarla.</p>
-    <p>Sostener lo acordado: <b>las escenas no se tocan.</b> Es cambiar el ángulo, no lo que pasa.</p>
-    <p>Antecedente para el inversor: Gloomy Eyes salió de VR y terminó en juego multiplataforma y parque temático. El camino ya lo hicimos.</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
-</section>
-
-<!-- ══ 13 · STATUS — deck p35 ════════════════════════════ -->
-<section class="slide" data-chapter="Status" data-budget="24">
-  <div class="content content--wide">
-    <p class="eyebrow">Where we are</p>
-    <h1 class="h--sm bleed"><span class="gold">Prototype</span>-ready.</h1>
-    <ul class="status">
-      <li><span class="mk">✓</span><span><b>Narrative development</b> — advanced. Scenes written, arc closed, Opi's turn resolved.</span></li>
-      <li><span class="mk">✓</span><span><b>Art direction</b> — validated. Full concept set across every scene.</span></li>
-      <li><span class="mk">✓</span><span><b>Research</b> — loneliness and mental health, reference and audience.</span></li>
-      <li><span class="mk">→</span><span><b>Prototype</b> — ready to start. Four months to a playable vertical slice.</span></li>
-    </ul>
-    <div class="gantt">
-      <div><span class="m">Month 1</span><span class="t">Art direction &amp; R&amp;D</span><span class="d">Pipeline tests, pointcloud and gaussian splatting, look development.</span></div>
-      <div><span class="m">Month 2</span><span class="t">Script V1 &amp; previs</span><span class="d">Beat-by-beat, spatial blocking, sound design direction.</span></div>
-      <div><span class="m">Month 3</span><span class="t">3D &amp; Unreal build</span><span class="d">Two scenes taken to final look in engine.</span></div>
-      <div><span class="m">Month 4</span><span class="t">Testing &amp; vertical slice</span><span class="d">Headset testing, iteration, playable build.</span></div>
-    </div>
-  </div>
-  <p class="footnote">Phase 1 delivers: 2 functional scenes · script V1 · validated art direction.</p>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>25 seg.</b> Cuatro meses, cuatro bloques. No entrar en detalle de pipeline salvo que pregunten. Lo que tiene que quedar: no arrancamos de cero, y hay una entrega concreta al final de la Fase 1.</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
-</section>
-
-<!-- ══ 14 · THE ASK — deck p35 ═══════════════════════════ -->
-<section class="slide" data-chapter="The ask" data-budget="24">
-  <div class="content content--wide">
-    <p class="eyebrow">What we're looking for</p>
-    <h1 class="h--sm bleed">Looking for the <span class="gold">right partners</span>.</h1>
-    <ul class="ask">
-      <li><span class="n">01</span><span class="k">International co-production</span><span class="v">A partner studio or broadcaster to build Phase 1 with.</span></li>
-      <li><span class="n">02</span><span class="k">Financing — 80% of Phase 1</span><span class="v">The remaining 20% is already committed by 3DAR.</span></li>
-      <li><span class="n">03</span><span class="k">Festival &amp; commissioning</span><span class="v">Venice Immersive, Sundance, Tribeca, Annecy, SXSW.</span></li>
-      <li><span class="n">04</span><span class="k">Distribution &amp; location-based</span><span class="v">Quest, Vision Pro, Steam — plus museums and installations.</span></li>
-      <li><span class="n">05</span><span class="k">Institutional partner</span><span class="v">Mental health organisations. This piece has a use beyond the circuit.</span></li>
-    </ul>
-  </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>25 seg.</b> El número importa: buscamos el <b>80 % de la Fase 1</b>, el 20 % ya está puesto por 3DAR. Eso dice que hay principio de inversión y que no venimos a que nos financien la idea entera.</p>
-    <p class="warn">⚠︎ Confirmar el 80/20 y si va monto en dólares antes de mostrarlo afuera.</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
-</section>
-
-<!-- ══ 15 · CLOSE — deck p36 ═════════════════════════════ -->
-<section class="slide" data-chapter="Close" data-budget="15">
-  <div class="bg" data-pos="right"><img src="assets/img/p36-thanks.webp" alt="" loading="lazy"></div>
-  <div class="scrim scrim--veil"></div>
-  <div class="content content--center">
-    <img class="endlogo" src="assets/img/logo-gold.webp" alt="Opi and the Quiet Ones">
-    <h1 class="h--xs">No loneliness is ever entirely alone.</h1>
-    <div class="billing">
-      <p><b>Directed by</b><span>Jorge Tereso</span><span>Federico Carlini</span><span>Fernando Maldonado</span></p>
-      <p><b>Produced by</b><span>3DAR · Buenos Aires</span><span>Germán Heller, Executive Producer</span><span><a href="mailto:g@3dar.com">g@3dar.com</a></span></p>
-      <p><b>Format</b><span>Immersive VR · 30 min</span><span>Unreal Engine · standalone</span><span>Seeking co-production</span></p>
-    </div>
-  </div>
-  <!-- NOTES: remove before final ─────────────────────────── -->
-  <aside class="notes">
-    <p><b>14 seg.</b> Frase, gracias, y callarse. No agregar nada después de esto.</p>
-    <p>La alternativa del Slides: «Where every loneliness finally finds someone to feel it.»</p>
-  </aside>
-  <!-- /NOTES ───────────────────────────────────────────────── -->
+  <img class="corner-3dar" src="assets/img/logo-3dar.webp" alt="3dar">
 </section>
 
 </main>
 
-<div class="stock"></div>
-
-<div class="rail rail-top">
-  <img src="assets/img/mark-paper.webp" alt="Opi">
-  <span class="hide-sm">An immersive VR experience &nbsp;·&nbsp; <span class="lit">3DAR</span> &nbsp;·&nbsp; Buenos Aires</span>
-</div>
-<div class="rail rail-bot">
-  <span id="chap"></span>
-  <span class="pg" id="num"></span>
-</div>
-
-<div class="zone prev" id="zPrev" aria-label="Previous"></div>
-<div class="zone next" id="zNext" aria-label="Next"></div>
-
-<div class="timer" id="timer"><span class="dot"></span><span class="el" id="tEl">0:00</span><span class="tg" id="tTg"></span></div>
-<p class="help">← → to move &nbsp;·&nbsp; <kbd>N</kbd> notes &nbsp;·&nbsp; <kbd>T</kbd> timer &nbsp;·&nbsp; <kbd>O</kbd> overview</p>
-
-<div class="overview" id="overview">
-  <h4></h4>
-  <div class="ov-grid" id="ovGrid"></div>
-</div>
+<nav class="nav" aria-label="Slides">
+  <button id="prev" type="button" aria-label="Previous">‹</button>
+  <span id="chapter" class="chapter"></span>
+  <button id="next" type="button" aria-label="Next">›</button>
+</nav>
+<div class="rail"><i id="railfill"></i></div>
 
 <script src="assets/js/deck.js"></script>
+</body>
+</html>
