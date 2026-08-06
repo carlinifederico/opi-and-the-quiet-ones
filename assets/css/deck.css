@@ -11,10 +11,10 @@
   /* story slideshow: seconds per image. 16 images, then it holds on the last one. */
   --beat:2s;
   /* how much room the notes take when open. 0 while closed, so nothing shifts. */
-  --notes-h:40vh;
+  --notes-w:clamp(320px,30vw,480px);
   --shift:0px;
 }
-body.notes-open{--shift:var(--notes-h)}
+body.notes-open{--shift:var(--notes-w)}
 
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden;background:var(--ink)}
@@ -28,7 +28,7 @@ img,video{display:block;max-width:100%}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 /* ── slides ─────────────────────────────────────────── */
-#deck{position:fixed;left:0;right:0;top:0;bottom:var(--shift);transition:bottom .45s var(--ease)}
+#deck{position:fixed;left:0;top:0;bottom:0;right:var(--shift);transition:right .45s var(--ease)}
 .slide{
   position:absolute;inset:0;
   opacity:0;visibility:hidden;
@@ -238,15 +238,15 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .notes{display:none}
 
 .notespanel{
-  position:fixed;left:0;right:0;bottom:0;z-index:8;
-  height:var(--notes-h);
-  overflow-y:auto;
-  padding:1.6rem var(--pad) 2rem;
+  position:fixed;right:0;top:0;bottom:0;z-index:8;
+  width:var(--notes-w);
+  overflow-y:auto;overscroll-behavior:contain;
+  padding:1.6rem 1.6rem 2.4rem;
   background:#0b0b0e;
-  border-top:1px solid rgba(245,183,34,.32);
-  transform:translateY(101%);
+  border-left:1px solid rgba(245,183,34,.32);
+  transform:translateX(101%);
   transition:transform .45s var(--ease);
-  font-size:.86rem;line-height:1.62;color:var(--dim);font-weight:300;
+  font-size:.76rem;line-height:1.58;color:var(--dim);font-weight:300;
   text-align:left;
 }
 body.notes-open .notespanel{transform:none}
@@ -265,8 +265,7 @@ body.notes-open .notespanel{transform:none}
 .notespanel i{font-style:italic}
 
 .notesbtn{
-  position:fixed;left:1.1rem;bottom:calc(var(--shift) + 1rem);z-index:12;
-  transition:bottom .45s var(--ease);
+  position:fixed;left:1.1rem;bottom:1rem;z-index:12;
   display:flex;align-items:center;gap:.45rem;
   padding:.42rem .8rem .42rem .55rem;
   border:1px solid rgba(243,239,230,.18);border-radius:2rem;
@@ -274,15 +273,15 @@ body.notes-open .notespanel{transform:none}
   opacity:.5;transition:opacity .3s,color .3s,border-color .3s;
 }
 .notesbtn:hover{opacity:1;color:var(--cream)}
-.notesbtn svg{width:1rem;height:1rem;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .35s var(--ease)}
+.notesbtn svg{width:1rem;height:1rem;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transform:rotate(90deg);transition:transform .35s var(--ease)}
 body.notes-open .notesbtn{opacity:1;color:var(--gold);border-color:rgba(245,183,34,.5)}
-body.notes-open .notesbtn svg{transform:rotate(180deg)}
+body.notes-open .notesbtn svg{transform:rotate(-90deg)}
 
 /* ── chrome ─────────────────────────────────────────── */
 .nav{
-  position:fixed;left:0;right:0;bottom:calc(var(--shift) + 1.1rem);z-index:10;
+  position:fixed;left:0;right:var(--shift);bottom:1.1rem;z-index:10;
   display:flex;align-items:center;justify-content:center;gap:1.2rem;
-  opacity:.38;transition:opacity .35s,bottom .45s var(--ease);pointer-events:none;
+  opacity:.38;transition:opacity .35s,right .45s var(--ease);pointer-events:none;
 }
 .nav:hover{opacity:1}
 .nav button{font-size:1.5rem;line-height:1;padding:.2rem .7rem;color:var(--cream);pointer-events:auto}
@@ -297,7 +296,7 @@ body.notes-open .notesbtn svg{transform:rotate(180deg)}
 }
 .counter i{font-style:normal}
 #cur{color:var(--gold)}
-.rail{position:fixed;left:0;right:0;bottom:var(--shift);height:2px;background:rgba(243,239,230,.1);z-index:10;transition:bottom .45s var(--ease)}
+.rail{position:fixed;left:0;right:var(--shift);bottom:0;height:2px;background:rgba(243,239,230,.1);z-index:10;transition:right .45s var(--ease)}
 .rail i{display:block;height:100%;width:0;background:var(--gold);transition:width .6s var(--ease)}
 
 /* ── small screens ──────────────────────────────────── */
@@ -306,9 +305,19 @@ body.notes-open .notesbtn svg{transform:rotate(180deg)}
   .scrim--left,.scrim--right{background:linear-gradient(to top,rgba(8,8,10,.94) 0%,rgba(8,8,10,.7) 40%,rgba(8,8,10,.25) 100%)}
   .rows li{grid-template-columns:1fr;gap:.15rem}
   .tv,.actline{width:88vw}
-  .notes{max-height:70vh;padding-left:1.4rem;padding-right:1.4rem}
   .laurels{width:88vw}
   .credit{gap:1rem}
+  /* no room for a side rail on a phone — the notes go back to the bottom */
+  body.notes-open{--shift:0px}
+  #deck{right:0;bottom:var(--phone-shift,0px);transition:bottom .45s var(--ease)}
+  body.notes-open{--phone-shift:52vh}
+  .notespanel{left:0;right:0;top:auto;bottom:0;width:auto;height:52vh;
+    border-left:0;border-top:1px solid rgba(245,183,34,.32);transform:translateY(101%)}
+  .nav{right:0;bottom:calc(var(--phone-shift,0px) + 1.1rem);transition:bottom .45s var(--ease)}
+  .rail{right:0;bottom:var(--phone-shift,0px);transition:bottom .45s var(--ease)}
+  .notesbtn{bottom:calc(var(--phone-shift,0px) + 1rem);transition:bottom .45s var(--ease)}
+  .notesbtn svg{transform:none}
+  body.notes-open .notesbtn svg{transform:rotate(180deg)}
 }
 @media (prefers-reduced-motion:reduce){
   .bg img,.bg video{transition:none;transform:none}
