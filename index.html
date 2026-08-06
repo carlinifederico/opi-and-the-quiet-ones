@@ -148,7 +148,7 @@
   <div class="bg bg--right"><img src="assets/img/08-artdir.webp" alt="" loading="lazy"></div>
   <div class="scrim scrim--left"></div>
   <div class="hold hold--left">
-    <h1 class="statement">Vivimos en una época<br>más <em>solitaria</em> que antes.</h1>
+    <h1 class="statement">¿Vivimos en una época<br>más <em>solitaria</em> que antes?</h1>
   </div>
   <aside class="notes">
     <h3>El marco</h3>
@@ -395,7 +395,10 @@
 
 </main>
 
-<button id="notesbtn" class="notesbtn" type="button" aria-expanded="false" aria-controls="deck" title="Notas del presentador (N)">
+<!-- The notes live outside #deck so opening them shrinks the slide instead of covering it. -->
+<section id="notespanel" class="notespanel" aria-live="polite"></section>
+
+<button id="notesbtn" class="notesbtn" type="button" aria-expanded="false" aria-controls="notespanel" title="Notas del presentador (N)">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
   <span>notas</span>
 </button>

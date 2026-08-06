@@ -11,6 +11,7 @@ const totEl    = document.getElementById('tot');
 const teaser   = document.getElementById('teaser');
 const soundBtn = document.getElementById('sound');
 const notesBtn = document.getElementById('notesbtn');
+const notesPanel = document.getElementById('notespanel');
 
 let i = 0;
 // Browsers only allow sound after the viewer has interacted with the page.
@@ -34,6 +35,11 @@ function show(n) {
 }
 
 function paint() {
+  const src = slides[i].querySelector('.notes');
+  notesPanel.innerHTML = src ? src.innerHTML : '';
+  notesPanel.scrollTop = 0;
+  notesBtn.hidden = !src;
+  if (!src) toggleNotes(false);          // cover and closer carry no notes
   chapter.textContent = slides[i].dataset.chapter || '';
   curEl.textContent = i + 1;
   railFill.style.width = ((i + 1) / slides.length * 100) + '%';
@@ -109,7 +115,8 @@ function stopStory() {
 
 /* ── presenter notes ────────────────────────────────── */
 function toggleNotes(force) {
-  const open = force !== undefined ? force : !document.body.classList.contains('notes-open');
+  let open = force !== undefined ? force : !document.body.classList.contains('notes-open');
+  if (open && !notesPanel.firstChild) open = false;
   document.body.classList.toggle('notes-open', open);
   notesBtn.setAttribute('aria-expanded', String(open));
 }
@@ -137,7 +144,7 @@ let wheelLock = 0;
 addEventListener('wheel', e => {
   gestured = true;
   // let the open notes panel scroll on its own
-  if (e.target.closest && e.target.closest('.notes')) return;
+  if (e.target.closest && e.target.closest('.notespanel')) return;
   const now = Date.now();
   if (now - wheelLock < 700 || Math.abs(e.deltaY) < 12) return;
   wheelLock = now;
@@ -147,7 +154,7 @@ addEventListener('wheel', e => {
 let touchY = null;
 addEventListener('touchstart', e => {
   gestured = true;
-  touchY = e.target.closest && e.target.closest('.notes') ? null : e.touches[0].clientY;
+  touchY = e.target.closest && e.target.closest('.notespanel') ? null : e.touches[0].clientY;
 }, { passive: true });
 addEventListener('touchend', e => {
   if (touchY === null) return;
