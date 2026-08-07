@@ -11,7 +11,7 @@
   /* story slideshow: seconds per image. 16 images, then it holds on the last one. */
   --beat:2s;
   /* how much room the notes take when open. 0 while closed, so nothing shifts. */
-  --notes-w:clamp(320px,30vw,480px);
+  --notes-w:clamp(380px,36vw,620px);
   --shift:0px;
 }
 body.notes-open{--shift:var(--notes-w)}
@@ -246,14 +246,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   border-left:1px solid rgba(245,183,34,.32);
   transform:translateX(101%);
   transition:transform .45s var(--ease);
-  font-size:.76rem;line-height:1.58;color:var(--dim);font-weight:300;
+  font-size:1.14rem;line-height:1.5;color:var(--dim);font-weight:300;
   text-align:left;
 }
 body.notes-open .notespanel{transform:none}
 .notespanel h3{
   font-family:Fraunces,serif;font-variation-settings:'opsz' 60;
-  font-size:1rem;font-weight:500;color:var(--gold);
-  letter-spacing:.01em;margin:1.3rem 0 .5rem;
+  font-size:1.32rem;font-weight:500;color:var(--gold);
+  letter-spacing:.01em;margin:1.5rem 0 .55rem;
 }
 .notespanel h3:first-child{margin-top:0}
 .notespanel ul{list-style:none;display:grid;gap:.5rem;max-width:110ch}

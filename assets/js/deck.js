@@ -18,6 +18,9 @@ let i = 0;
 // Presenters reach the teaser by pressing a key, so by then we have consent.
 let gestured = false;
 let fromHash = false;
+// Notes start open. This tracks what the presenter last chose, so slides that
+// carry no notes can close the panel without forgetting the preference.
+let wantNotes = true;
 
 totEl.textContent = slides.length;
 
@@ -39,7 +42,7 @@ function paint() {
   notesPanel.innerHTML = src ? src.innerHTML : '';
   notesPanel.scrollTop = 0;
   notesBtn.hidden = !src;
-  if (!src) toggleNotes(false);          // cover and closer carry no notes
+  paintNotes();
   chapter.textContent = slides[i].dataset.chapter || '';
   curEl.textContent = i + 1;
   railFill.style.width = ((i + 1) / slides.length * 100) + '%';
@@ -114,11 +117,16 @@ function stopStory() {
 }
 
 /* ── presenter notes ────────────────────────────────── */
-function toggleNotes(force) {
-  let open = force !== undefined ? force : !document.body.classList.contains('notes-open');
-  if (open && !notesPanel.firstChild) open = false;
+// Shows the panel when the presenter wants it AND this slide has something to say.
+function paintNotes() {
+  const open = wantNotes && !!notesPanel.firstChild;
   document.body.classList.toggle('notes-open', open);
   notesBtn.setAttribute('aria-expanded', String(open));
+}
+
+function toggleNotes(force) {
+  wantNotes = force !== undefined ? force : !wantNotes;
+  paintNotes();
 }
 notesBtn.addEventListener('click', e => { e.stopPropagation(); gestured = true; toggleNotes(); });
 
