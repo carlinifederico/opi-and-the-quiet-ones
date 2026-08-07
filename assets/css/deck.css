@@ -167,6 +167,15 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .rows span{color:var(--dim);font-size:clamp(.9rem,1.15vw,1.05rem);font-weight:300;line-height:1.45}
 .rows--ask li{align-items:start}
 
+/* the character sheet pinned onto the status screen */
+.artcard{
+  width:min(440px,100%);margin-top:1.5rem;
+  border:1px solid rgba(243,239,230,.18);
+  box-shadow:0 18px 44px rgba(0,0,0,.6);
+  overflow:hidden;line-height:0;
+}
+.artcard video{width:100%;height:auto;opacity:.9}
+
 .quote{
   font-family:Fraunces,Georgia,serif;
   font-variation-settings:'SOFT' 40,'WONK' 1,'opsz' 100;
