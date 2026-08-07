@@ -119,6 +119,38 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .awards{height:clamp(38px,4.4vw,58px);width:auto;opacity:.92}
 .awards--wide{height:clamp(30px,3.4vw,46px)}
 
+/* ── Gloomy Eyes: the awards and the narrator carry this screen ─── */
+/* bottom-aligned so the tall stack clears the year sitting top right */
+.slide--gloomy .hold--right{justify-content:flex-end;gap:.9rem;max-width:min(56ch,52%);padding-bottom:calc(var(--pad) * .8)}
+.slide--gloomy .scrim--right{background:linear-gradient(to left,rgba(8,8,10,.96) 0%,rgba(8,8,10,.86) 30%,rgba(8,8,10,.45) 58%,rgba(8,8,10,0) 88%)}
+.slide--gloomy .projmark{width:clamp(200px,20vw,300px)}
+.slide--gloomy .lede{max-width:38ch}
+
+.starring{display:flex;align-items:center;gap:1.1rem;margin-top:.5rem}
+.starring img{
+  width:clamp(84px,8vw,124px);aspect-ratio:1;object-fit:cover;object-position:center 22%;
+  border-radius:50%;border:1px solid rgba(243,239,230,.28);
+}
+.starring figcaption{display:flex;flex-direction:column;gap:.15rem}
+.starring span{font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.starring b{
+  font-family:Fraunces,serif;font-variation-settings:'opsz' 90,'SOFT' 20;
+  font-size:clamp(1.5rem,2.6vw,2.4rem);font-weight:500;line-height:1;color:var(--cream);
+}
+
+.awards-row{list-style:none;display:flex;align-items:center;gap:clamp(1.4rem,3vw,2.8rem);flex-wrap:wrap;margin-top:.9rem}
+.awards-row img{height:clamp(56px,7vw,104px);width:auto;opacity:.95}
+.awards-roll{font-size:clamp(.78rem,1.05vw,.95rem);line-height:1.6;color:var(--dim);letter-spacing:.02em}
+.awards-roll b{color:var(--cream);font-weight:500}
+
+.stillcard{
+  position:absolute;left:var(--pad);bottom:calc(var(--pad) * .8);
+  width:min(30%,340px);line-height:0;
+  border:1px solid rgba(243,239,230,.18);
+  box-shadow:0 18px 44px rgba(0,0,0,.65);
+}
+.stillcard img{width:100%;height:auto}
+
 /* ── page 2 ─────────────────────────────────────────── */
 .studiomark{width:clamp(130px,15vw,220px);height:auto}
 .laurels{

@@ -17,7 +17,6 @@ let i = 0;
 // Browsers only allow sound after the viewer has interacted with the page.
 // Presenters reach the teaser by pressing a key, so by then we have consent.
 let gestured = false;
-let fromHash = false;
 // Notes start open. This tracks what the presenter last chose, so slides that
 // carry no notes can close the panel without forgetting the preference.
 let wantNotes = true;
@@ -33,7 +32,6 @@ function show(n) {
   slides.forEach((s, k) => s.classList.toggle('is-on', k === n));
   enter(slides[n]);
   paint();
-  fromHash = true;                       // our own write — don't let hashchange bounce it back
   location.hash = String(n + 1);
 }
 
@@ -173,7 +171,6 @@ addEventListener('touchend', e => {
 
 // Deep links: /#12 jumps straight to a slide, and editing the hash by hand works too.
 addEventListener('hashchange', () => {
-  if (fromHash) { fromHash = false; return; }
   const n = parseInt(location.hash.slice(1), 10);
   if (n >= 1 && n <= slides.length) show(n - 1);
 });

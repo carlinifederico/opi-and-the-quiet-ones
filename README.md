@@ -30,15 +30,17 @@ do not allow otherwise.
 | # | Deck page | What |
 |---|---|---|
 | 1 | 1 | Cover — key art, 3dar mark |
-| 2 | 2 | 3dar — studio loop, festival strip |
-| 3–5 | 3, 4, 5 | Gloomy Eyes 2019 · Paper Birds 2021 · Eggscape 2026 |
-| 6 | 6 | 2026 — We landed here |
-| 7 | 7 | Teaser, autoplay |
-| 8 | 8 | "Vivimos en una época más solitaria que antes" |
-| 9 | 9 | "¿Por qué nos aterra tanto la soledad?" |
-| 10 | 10 | Visiting solitudes — the format |
-| 11 | 11 | Opi |
-| 12 | 12 → 28 | The story — 16-scene slideshow on loop, synopsis behind the eye |
+| 2 | 2 | Gloomy Eyes 2019 — the awards and Colin Farrell, large |
+| 3 | 3 | Paper Birds 2021 |
+| 4 | 4 | Eggscape 2026 |
+| 5 | 5 | 2026 — We landed here |
+| 6 | 6 | "Nunca estuvimos tan conectados y a la vez tan solos" |
+| 7 | 7 | "¿Por qué nos aterra tanto la soledad?" |
+| 8 | 8 | "Si hay tanto para aprender de ella…" |
+| 9 | 9 | Title card — the teaser, autoplay |
+| 10 | 10 | Opi |
+| 11 | 11 | Visiting solitudes — the format |
+| 12 | 12 → 28 | The story — 16-scene slideshow, holds on the last frame |
 | 13 | 29 | The reflection |
 | 14 | 30 | If this were a feature — three acts |
 | 15 | 31 | Where we are |
@@ -82,9 +84,17 @@ has to work on a festival wifi, or none.
 
 ## Open
 
-- **The cast portraits and award marks** on screens 3–5 were lifted out of the Google Slides
-  render, so they are only as sharp as the deck's own copies (~120–260px). Fine at the size they
-  are shown; originals would be better.
+- **Gloomy Eyes needs two more laurels.** Only Annecy, SXSW and NewImages exist as artwork in the
+  deck; Raindance and Sundance are set as type in the award roll. Drop the laurel PNGs in and
+  they join the row.
+- **The GIF on the Gloomy Eyes slide** could not be pulled out: the Slides render flattens it, and
+  Chrome refuses downloads in this environment, so the PPTX export never landed. The still frame
+  is in as a placeholder — `assets/img/03-gloomy-still.webp`. Swap it for the real loop when it
+  is somewhere reachable.
+- **The cast portraits and award marks** were lifted out of the Google Slides render, so they are
+  only as sharp as the deck's own copies. Colin Farrell comes from a ~98px source, shown at ~120px.
+- **The 3dar studio screen is gone** along with the deck's page 2. Its assets are still in the repo
+  (`laurels.webp`, `video/02-about3dar.mp4`) if it comes back.
 - **The 3dar loop** comes from a 560×315 GIF, so it is soft at full-bleed. A higher-res source
   would fix it.
 - **Language** is mixed on purpose for now: screens 8 and 9 in Spanish as dictated, the rest
