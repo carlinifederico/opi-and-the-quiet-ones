@@ -105,13 +105,15 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* Same anatomy on all three: art on one side, the words and the awards on the other, and the
    project's own loop in the opposite bottom corner. Bottom-aligned so the tall stack clears
    the year sitting top right. */
-/* wider than a normal text column: the laurel row, not the prose, sets the width here */
+/* The loop is the biggest thing on these screens, so the words give way: a tight column,
+   small gaps, everything on as few lines as it can manage. */
 .slide--project .hold--right,
-.slide--project .hold--left{justify-content:flex-end;gap:.9rem;max-width:min(78ch,58%);padding-bottom:calc(var(--pad) * .8)}
+.slide--project .hold--left{justify-content:flex-end;gap:.55rem;max-width:min(72ch,52%);padding-bottom:calc(var(--pad) * .8)}
 .slide--project .scrim--right{background:linear-gradient(to left,rgba(8,8,10,.96) 0%,rgba(8,8,10,.86) 30%,rgba(8,8,10,.45) 58%,rgba(8,8,10,0) 88%)}
 .slide--project .scrim--left{background:linear-gradient(to right,rgba(8,8,10,.96) 0%,rgba(8,8,10,.86) 30%,rgba(8,8,10,.45) 58%,rgba(8,8,10,0) 88%)}
 .slide--project .projmark{width:clamp(200px,20vw,300px)}
-.slide--project .lede{max-width:38ch}
+/* one sentence, and it should sit on one line wherever the screen allows */
+.slide--project .lede{max-width:64ch}
 
 .starring{display:flex;align-items:center;gap:1.1rem;margin-top:.5rem}
 .starring img{
@@ -130,19 +132,21 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .starring--duo img{width:clamp(64px,6vw,96px)}
 .starring--duo b{font-size:clamp(1.1rem,1.9vw,1.7rem)}
 
-/* Sized so the whole row clears the column in one line on a laptop and on a 1920 screen —
-   they wrap gracefully below that, but a row that wraps reads as an afterthought. */
-.awards-row{list-style:none;display:flex;align-items:center;gap:clamp(.9rem,2vw,2.2rem);flex-wrap:wrap;margin-top:.9rem}
-.awards-row img{height:clamp(46px,5vw,92px);width:auto;opacity:.95}
+/* One line, always. A row that wraps costs a whole band of the screen and reads as an
+   afterthought; the sizes below keep every row single-line from 1024px up. */
+.awards-row{list-style:none;display:flex;align-items:center;gap:clamp(.7rem,1.6vw,1.8rem);flex-wrap:wrap;margin-top:.5rem}
+.awards-row img{height:clamp(38px,4.5vw,86px);width:auto;opacity:.95}
 /* Paper Birds carries five marks where the others carry three or four */
-.slide--birds .awards-row{gap:clamp(.7rem,1.5vw,1.4rem)}
-.slide--birds .awards-row img{height:clamp(40px,4.2vw,72px)}
-.awards-roll{font-size:clamp(.78rem,1.05vw,.95rem);line-height:1.6;color:var(--dim);letter-spacing:.02em}
+.slide--birds .awards-row{gap:clamp(.6rem,1.2vw,1.2rem)}
+.slide--birds .awards-row img{height:clamp(34px,4vw,72px)}
+.awards-roll{font-size:clamp(.72rem,.95vw,.88rem);line-height:1.45;color:var(--dim);letter-spacing:.02em;margin-top:.15rem}
 .awards-roll b{color:var(--cream);font-weight:500}
 
+/* Sized off the deck itself, where the loop runs about a third of the slide width on all
+   three project pages (33.8% / 30.8% / 30.9%). Anything smaller reads as a thumbnail. */
 .stillcard{
   position:absolute;left:var(--pad);bottom:calc(var(--pad) * .8);
-  width:min(30%,340px);line-height:0;
+  width:min(34%,660px);line-height:0;
   border:1px solid rgba(243,239,230,.18);
   box-shadow:0 18px 44px rgba(0,0,0,.65);
 }
@@ -339,11 +343,10 @@ body.notes-open .notesbtn svg{transform:rotate(-90deg)}
   .scrim--left,.scrim--right{background:linear-gradient(to top,rgba(8,8,10,.94) 0%,rgba(8,8,10,.7) 40%,rgba(8,8,10,.25) 100%)}
   .rows li{grid-template-columns:1fr;gap:.15rem}
   .tv,.actline{width:88vw}
-  /* The project screens. The loop card is a corner ornament with nowhere to go on a phone —
-     the words and the laurels are what has to survive, so the card steps out. */
-  /* extra bottom padding: the stack is bottom-aligned and the nav sits in that same corner */
-  .slide--project .hold--left,.slide--project .hold--right{max-width:100%;gap:.7rem;padding-bottom:calc(var(--pad) * .8 + 3.2rem)}
-  .stillcard{display:none}
+  /* The project screens. No corner to tuck the loop into on a phone, so it goes up top at full
+     width and the words stay bottom-aligned under it — with room for the nav that sits there. */
+  .slide--project .hold--left,.slide--project .hold--right{max-width:100%;gap:.6rem;padding-bottom:calc(var(--pad) * .8 + 3.2rem)}
+  .stillcard,.stillcard--right{left:var(--pad);right:var(--pad);top:calc(var(--pad) * 3.1);bottom:auto;width:auto}
   .starring img{width:64px}
   .starring b{font-size:1.25rem}
   .starring--duo{gap:1rem}
