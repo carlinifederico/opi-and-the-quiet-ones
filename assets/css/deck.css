@@ -101,30 +101,17 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .projmark{width:clamp(190px,24vw,340px);height:auto;margin-bottom:.2rem}
 .projmark--tight{width:clamp(150px,18vw,250px)}
 
-/* ── the cast + award row on 3, 4, 5 ────────────────── */
-.credit{display:flex;align-items:center;gap:clamp(1.2rem,2.6vw,2.6rem);flex-wrap:wrap;margin-top:.7rem}
-.face{display:flex;align-items:center;gap:.7rem}
-.face img{
-  width:clamp(46px,4.4vw,62px);aspect-ratio:1;object-fit:cover;object-position:center top;
-  border-radius:50%;border:1px solid rgba(243,239,230,.22);
-}
-.face figcaption{
-  display:flex;flex-direction:column;line-height:1.25;
-  font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
-}
-.face figcaption b{
-  font-family:Fraunces,serif;font-variation-settings:'opsz' 60;
-  font-size:.92rem;letter-spacing:.01em;text-transform:none;color:var(--cream);font-weight:500;
-}
-.awards{height:clamp(38px,4.4vw,58px);width:auto;opacity:.92}
-.awards--wide{height:clamp(30px,3.4vw,46px)}
-
-/* ── Gloomy Eyes: the awards and the narrator carry this screen ─── */
-/* bottom-aligned so the tall stack clears the year sitting top right */
-.slide--gloomy .hold--right{justify-content:flex-end;gap:.9rem;max-width:min(56ch,52%);padding-bottom:calc(var(--pad) * .8)}
-.slide--gloomy .scrim--right{background:linear-gradient(to left,rgba(8,8,10,.96) 0%,rgba(8,8,10,.86) 30%,rgba(8,8,10,.45) 58%,rgba(8,8,10,0) 88%)}
-.slide--gloomy .projmark{width:clamp(200px,20vw,300px)}
-.slide--gloomy .lede{max-width:38ch}
+/* ── the three project screens (2, 3, 4) ────────────── */
+/* Same anatomy on all three: art on one side, the words and the awards on the other, and the
+   project's own loop in the opposite bottom corner. Bottom-aligned so the tall stack clears
+   the year sitting top right. */
+/* wider than a normal text column: the laurel row, not the prose, sets the width here */
+.slide--project .hold--right,
+.slide--project .hold--left{justify-content:flex-end;gap:.9rem;max-width:min(78ch,58%);padding-bottom:calc(var(--pad) * .8)}
+.slide--project .scrim--right{background:linear-gradient(to left,rgba(8,8,10,.96) 0%,rgba(8,8,10,.86) 30%,rgba(8,8,10,.45) 58%,rgba(8,8,10,0) 88%)}
+.slide--project .scrim--left{background:linear-gradient(to right,rgba(8,8,10,.96) 0%,rgba(8,8,10,.86) 30%,rgba(8,8,10,.45) 58%,rgba(8,8,10,0) 88%)}
+.slide--project .projmark{width:clamp(200px,20vw,300px)}
+.slide--project .lede{max-width:38ch}
 
 .starring{display:flex;align-items:center;gap:1.1rem;margin-top:.5rem}
 .starring img{
@@ -137,9 +124,19 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   font-family:Fraunces,serif;font-variation-settings:'opsz' 90,'SOFT' 20;
   font-size:clamp(1.5rem,2.6vw,2.4rem);font-weight:500;line-height:1;color:var(--cream);
 }
+/* two names instead of one: same treatment, one step down so the pair fits the column */
+.starring--duo{gap:clamp(1.1rem,2.4vw,2.2rem);flex-wrap:wrap}
+.starring--duo figure{display:flex;align-items:center;gap:.8rem}
+.starring--duo img{width:clamp(64px,6vw,96px)}
+.starring--duo b{font-size:clamp(1.1rem,1.9vw,1.7rem)}
 
-.awards-row{list-style:none;display:flex;align-items:center;gap:clamp(1.4rem,3vw,2.8rem);flex-wrap:wrap;margin-top:.9rem}
-.awards-row img{height:clamp(56px,7vw,104px);width:auto;opacity:.95}
+/* Sized so the whole row clears the column in one line on a laptop and on a 1920 screen —
+   they wrap gracefully below that, but a row that wraps reads as an afterthought. */
+.awards-row{list-style:none;display:flex;align-items:center;gap:clamp(.9rem,2vw,2.2rem);flex-wrap:wrap;margin-top:.9rem}
+.awards-row img{height:clamp(46px,5vw,92px);width:auto;opacity:.95}
+/* Paper Birds carries five marks where the others carry three or four */
+.slide--birds .awards-row{gap:clamp(.7rem,1.5vw,1.4rem)}
+.slide--birds .awards-row img{height:clamp(40px,4.2vw,72px)}
 .awards-roll{font-size:clamp(.78rem,1.05vw,.95rem);line-height:1.6;color:var(--dim);letter-spacing:.02em}
 .awards-roll b{color:var(--cream);font-weight:500}
 
@@ -149,15 +146,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   border:1px solid rgba(243,239,230,.18);
   box-shadow:0 18px 44px rgba(0,0,0,.65);
 }
-.stillcard img{width:100%;height:auto}
+.stillcard--right{left:auto;right:var(--pad)}
+.stillcard img,.stillcard video{width:100%;height:auto}
 
 /* ── page 2 ─────────────────────────────────────────── */
 .studiomark{width:clamp(130px,15vw,220px);height:auto}
-.laurels{
-  position:absolute;left:50%;transform:translateX(-50%);
-  bottom:calc(var(--pad) * .75);
-  width:min(74vw,1000px);height:auto;opacity:.72;
-}
 
 .corner-3dar{
   position:absolute;right:var(--pad);bottom:calc(var(--pad) * .75);
@@ -346,8 +339,18 @@ body.notes-open .notesbtn svg{transform:rotate(-90deg)}
   .scrim--left,.scrim--right{background:linear-gradient(to top,rgba(8,8,10,.94) 0%,rgba(8,8,10,.7) 40%,rgba(8,8,10,.25) 100%)}
   .rows li{grid-template-columns:1fr;gap:.15rem}
   .tv,.actline{width:88vw}
-  .laurels{width:88vw}
-  .credit{gap:1rem}
+  /* The project screens. The loop card is a corner ornament with nowhere to go on a phone —
+     the words and the laurels are what has to survive, so the card steps out. */
+  /* extra bottom padding: the stack is bottom-aligned and the nav sits in that same corner */
+  .slide--project .hold--left,.slide--project .hold--right{max-width:100%;gap:.7rem;padding-bottom:calc(var(--pad) * .8 + 3.2rem)}
+  .stillcard{display:none}
+  .starring img{width:64px}
+  .starring b{font-size:1.25rem}
+  .starring--duo{gap:1rem}
+  .starring--duo img{width:52px}
+  .starring--duo b{font-size:1rem}
+  .awards-row{gap:1rem;margin-top:.6rem}
+  .awards-row img,.slide--birds .awards-row img{height:clamp(34px,9vw,52px)}
   /* no room for a side rail on a phone — the notes go back to the bottom */
   body.notes-open{--shift:0px}
   #deck{right:0;bottom:var(--phone-shift,0px);transition:bottom .45s var(--ease)}
