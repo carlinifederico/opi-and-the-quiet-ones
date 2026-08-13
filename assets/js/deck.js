@@ -17,9 +17,8 @@ let i = 0;
 // Browsers only allow sound after the viewer has interacted with the page.
 // Presenters reach the teaser by pressing a key, so by then we have consent.
 let gestured = false;
-// Notes start open. This tracks what the presenter last chose, so slides that
-// carry no notes can close the panel without forgetting the preference.
-let wantNotes = true;
+// Whether the presenter wants the panel open. Remembered across slides.
+let wantNotes = false;
 
 totEl.textContent = slides.length;
 
@@ -27,6 +26,7 @@ totEl.textContent = slides.length;
 function show(n) {
   n = Math.max(0, Math.min(slides.length - 1, n));
   if (n === i && slides[n].classList.contains('is-on')) return;
+  commitNote();               // never lose a half-typed note to an arrow key
   leave(slides[i]);
   i = n;
   slides.forEach((s, k) => s.classList.toggle('is-on', k === n));
@@ -36,11 +36,7 @@ function show(n) {
 }
 
 function paint() {
-  const src = slides[i].querySelector('.notes');
-  notesPanel.innerHTML = src ? src.innerHTML : '';
-  notesPanel.scrollTop = 0;
-  notesBtn.hidden = !src;
-  paintNotes();
+  paintNote();
   chapter.textContent = slides[i].dataset.chapter || '';
   curEl.textContent = i + 1;
   railFill.style.width = ((i + 1) / slides.length * 100) + '%';
@@ -54,12 +50,10 @@ const go = d => show(i + d);
 function enter(s) {
   s.querySelectorAll('video[data-loop]').forEach(v => { v.currentTime = 0; v.play().catch(() => {}); });
   if (s.hasAttribute('data-teaser')) playTeaser();
-  if (s.hasAttribute('data-story')) startStory();
 }
 
 function leave(s) {
   s.querySelectorAll('video').forEach(v => v.pause());
-  if (s.hasAttribute('data-story')) stopStory();
 }
 
 /* ── teaser ─────────────────────────────────────────── */
@@ -85,57 +79,288 @@ if (soundBtn) soundBtn.addEventListener('click', e => {
   paintSound();
 });
 
-/* ── story slideshow ────────────────────────────────── */
-const showEl = document.getElementById('show');
-const frames = showEl ? [...showEl.children] : [];
-let storyAt = 0, storyTimer = null;
+/* ── presenter notes ─────────────────────────────────────────────────────
+   Written here, in the browser, and kept in this browser's storage. Keyed by
+   the slide's data-id and not by its position, so reordering or inserting
+   slides never shuffles anyone's notes onto the wrong screen. Export writes
+   the whole set to a file; import reads one back. */
+const STORE = 'opi-deck-notes-v1';
+const viewEl  = document.getElementById('notesview');
+const editEl  = document.getElementById('notesedit');
+const stateEl = document.getElementById('notesstate');
+const slideEl = document.getElementById('notesslide');
+const fileEl  = document.getElementById('notesfile');
 
-// Seconds per image, read from --beat so the pacing lives in one place.
-function beat() {
-  const v = getComputedStyle(document.documentElement).getPropertyValue('--beat').trim();
-  const n = parseFloat(v) || 2;
-  return /ms$/.test(v) ? n : n * 1000;
+let notes = load();
+let saveTimer = null;
+
+function load() {
+  try { return JSON.parse(localStorage.getItem(STORE)) || {}; }
+  catch { return {}; }
 }
 
-function startStory() {
-  if (!frames.length) return;
-  stopStory();
-  storyAt = 0;
-  frames.forEach((f, k) => f.classList.toggle('on', k === 0));
-  storyTimer = setInterval(() => {
-    if (storyAt >= frames.length - 1) { stopStory(); return; }  // hold on the last frame
-    frames[storyAt].classList.remove('on');
-    storyAt++;
-    frames[storyAt].classList.add('on');
-  }, beat());
+function persist() {
+  try {
+    localStorage.setItem(STORE, JSON.stringify(notes));
+    flag('saved');
+  } catch {
+    flag('could not save — storage is full or blocked', true);
+  }
 }
 
-function stopStory() {
-  if (storyTimer) { clearInterval(storyTimer); storyTimer = null; }
+let flagTimer = null;
+function flag(msg, stick) {
+  stateEl.textContent = msg;
+  stateEl.classList.toggle('warn', !!stick);
+  clearTimeout(flagTimer);
+  if (!stick) flagTimer = setTimeout(() => { stateEl.textContent = ''; }, 1600);
 }
 
-/* ── presenter notes ────────────────────────────────── */
-// Shows the panel when the presenter wants it AND this slide has something to say.
-function paintNotes() {
-  const open = wantNotes && !!notesPanel.firstChild;
-  document.body.classList.toggle('notes-open', open);
-  notesBtn.setAttribute('aria-expanded', String(open));
+const slideId = () => slides[i].dataset.id || String(i);
+
+/* A deliberately small formatter, so the notes stay readable as plain text in
+   the export file: # heading · - bullet · **bold** · __underline__ · *italic* */
+const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+
+function render(src) {
+  if (!src.trim()) return '';
+  const inline = s => esc(s)
+    .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+    .replace(/__([^_]+)__/g, '<u>$1</u>')
+    .replace(/\*([^*]+)\*/g, '<i>$1</i>');
+  const out = [];
+  let list = false;
+  for (const raw of src.split('\n')) {
+    const line = raw.trim();
+    if (!line) { if (list) { out.push('</ul>'); list = false; } continue; }
+    if (line.startsWith('#')) {
+      if (list) { out.push('</ul>'); list = false; }
+      out.push(`<h3>${inline(line.replace(/^#+\s*/, ''))}</h3>`);
+    } else if (/^[-*·]\s+/.test(line)) {
+      if (!list) { out.push('<ul>'); list = true; }
+      out.push(`<li>${inline(line.replace(/^[-*·]\s+/, ''))}</li>`);
+    } else {
+      if (list) { out.push('</ul>'); list = false; }
+      out.push(`<p>${inline(line)}</p>`);
+    }
+  }
+  if (list) out.push('</ul>');
+  return out.join('');
+}
+
+function paintNote() {
+  const id = slideId();
+  slideEl.textContent = `${i + 1} · ${slides[i].dataset.chapter || 'Untitled'}`;
+  const src = notes[id] || '';
+  viewEl.innerHTML = render(src) ||
+    '<p class="notesempty">No notes on this screen yet. Click here — or press <b>E</b> — to write them.</p>';
+  viewEl.scrollTop = 0;
+  if (!editEl.hidden) { editEl.value = src; editEl.scrollTop = 0; }
+  paintPanel();
+}
+
+function paintPanel() {
+  document.body.classList.toggle('notes-open', wantNotes);
+  notesBtn.setAttribute('aria-expanded', String(wantNotes));
 }
 
 function toggleNotes(force) {
   wantNotes = force !== undefined ? force : !wantNotes;
-  paintNotes();
+  if (!wantNotes) commitNote();
+  paintPanel();
 }
+
+function startEdit() {
+  if (!wantNotes) toggleNotes(true);
+  editEl.value = notes[slideId()] || '';
+  editEl.hidden = false;
+  viewEl.hidden = true;
+  document.body.classList.add('notes-editing');
+  editEl.focus();
+  const end = editEl.value.length;
+  editEl.setSelectionRange(end, end);
+}
+
+function commitNote() {
+  if (editEl.hidden) return;
+  const id = slideId();
+  const val = editEl.value.trim();
+  if (val) notes[id] = val; else delete notes[id];
+  persist();
+  editEl.hidden = true;
+  viewEl.hidden = false;
+  document.body.classList.remove('notes-editing');
+  paintNote();
+}
+
+viewEl.addEventListener('click', startEdit);
+viewEl.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); startEdit(); }
+});
+
+// Autosave while typing, so nothing depends on remembering to close the editor.
+editEl.addEventListener('input', () => {
+  clearTimeout(saveTimer);
+  stateEl.textContent = 'editing…';
+  saveTimer = setTimeout(() => {
+    const id = slideId(), val = editEl.value.trim();
+    if (val) notes[id] = val; else delete notes[id];
+    persist();
+  }, 600);
+});
+editEl.addEventListener('blur', commitNote);
+editEl.addEventListener('keydown', e => {
+  e.stopPropagation();                       // typing must never drive the deck
+  if (e.key === 'Escape') { e.preventDefault(); commitNote(); viewEl.focus(); }
+});
+
 notesBtn.addEventListener('click', e => { e.stopPropagation(); gestured = true; toggleNotes(); });
+
+/* export / import / clear */
+document.getElementById('notesexport').addEventListener('click', () => {
+  commitNote();
+  const payload = {
+    version: 1,
+    savedAt: new Date().toISOString().slice(0, 10),
+    deck: 'opi-and-the-quiet-ones',
+    notes,
+  };
+  const url = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' }));
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `opi-notes-${payload.savedAt}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  flag(`exported ${Object.keys(notes).length} notes`);
+});
+
+document.getElementById('notesimport').addEventListener('click', () => fileEl.click());
+
+fileEl.addEventListener('change', () => {
+  const f = fileEl.files && fileEl.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    let incoming;
+    try {
+      const parsed = JSON.parse(r.result);
+      incoming = parsed && parsed.notes ? parsed.notes : parsed;
+    } catch { flag('that file is not valid JSON', true); return; }
+    if (!incoming || typeof incoming !== 'object') { flag('no notes found in that file', true); return; }
+    const n = Object.keys(incoming).length;
+    const mine = Object.keys(notes).length;
+    if (mine && !confirm(`Import ${n} notes over the ${mine} already here?\nAnything with the same screen is replaced.`)) return;
+    notes = Object.assign({}, notes, incoming);
+    persist();
+    paintNote();
+    flag(`imported ${n} notes`);
+  };
+  r.readAsText(f);
+  fileEl.value = '';
+});
+
+document.getElementById('notesclear').addEventListener('click', () => {
+  const id = slideId();
+  if (!notes[id]) { flag('nothing to clear here'); return; }
+  if (!confirm('Erase the notes on this screen? The others stay.')) return;
+  delete notes[id];
+  persist();
+  if (!editEl.hidden) { editEl.hidden = true; viewEl.hidden = false; document.body.classList.remove('notes-editing'); }
+  paintNote();
+});
+
+/* ── the seven-minute clock ──────────────────────────────────────────────
+   Counts down from 7:00 and keeps counting once it passes zero, because the
+   useful number after the alarm is how far over you are. */
+// Seven minutes, unless the URL says otherwise: /?clock=5 for a five-minute slot.
+const TARGET = (() => {
+  const m = parseFloat(new URLSearchParams(location.search).get('clock'));
+  return (m > 0 && m <= 120 ? m : 7) * 60 * 1000;
+})();
+const clockBtn  = document.getElementById('clock');
+const clockTime = document.getElementById('clocktime');
+const clockFill = document.getElementById('clockfill');
+
+let started = null, elapsed = 0, ticking = null, rang = false;
+
+const mmss = ms => {
+  const t = Math.max(0, Math.round(ms / 1000));
+  return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
+};
+
+function clockNow() { return elapsed + (started ? Date.now() - started : 0); }
+
+function paintClock() {
+  const ms = clockNow();
+  const over = ms >= TARGET;
+  clockTime.textContent = (over ? '+' : '') + mmss(over ? ms - TARGET : TARGET - ms);
+  clockFill.style.width = Math.min(100, ms / TARGET * 100) + '%';
+  clockBtn.classList.toggle('running', !!started);
+  clockBtn.classList.toggle('over', over);
+  if (over && !rang) { rang = true; ring(); }
+}
+
+function toggleClock() {
+  if (started) { elapsed = clockNow(); started = null; clearInterval(ticking); ticking = null; }
+  else { started = Date.now(); ticking = setInterval(paintClock, 250); unlockAudio(); }
+  paintClock();
+}
+
+function resetClock() {
+  if (ticking) clearInterval(ticking);
+  started = null; ticking = null; elapsed = 0; rang = false;
+  paintClock();
+}
+
+/* The alarm is synthesised rather than loaded: no asset, and no request that
+   can fail on a festival wifi. Three rising beeps, then one long one. */
+let audio = null;
+function unlockAudio() {
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return;
+  if (!audio) audio = new AC();
+  if (audio.state === 'suspended') audio.resume();
+}
+
+function ring() {
+  unlockAudio();
+  if (!audio) return;
+  [[0, 880, 0.16], [0.28, 1046, 0.16], [0.56, 1318, 0.16], [0.92, 1046, 0.7]].forEach(([at, hz, dur]) => {
+    const osc = audio.createOscillator(), gain = audio.createGain();
+    const t = audio.currentTime + at;
+    osc.type = 'sine';
+    osc.frequency.value = hz;
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(0.22, t + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    osc.connect(gain).connect(audio.destination);
+    osc.start(t);
+    osc.stop(t + dur + 0.05);
+  });
+  document.body.classList.add('time-up');
+  setTimeout(() => document.body.classList.remove('time-up'), 4000);
+}
+
+clockBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  gestured = true;
+  if (e.shiftKey) resetClock(); else toggleClock();
+});
 
 /* ── input ──────────────────────────────────────────── */
 const KEYS_NEXT = new Set(['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter']);
 const KEYS_PREV = new Set(['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace']);
 
 addEventListener('keydown', e => {
+  if (e.target === editEl) return;                 // the editor owns its keys
   gestured = true;
   const k = e.key;
   if (k === 'n' || k === 'N') { e.preventDefault(); toggleNotes(); return; }
+  if (k === 'e' || k === 'E') { e.preventDefault(); startEdit(); return; }
+  if (k === 't') { e.preventDefault(); toggleClock(); return; }
+  if (k === 'T') { e.preventDefault(); resetClock(); return; }
   if (k === 'Escape') { toggleNotes(false); return; }
   if (KEYS_NEXT.has(k)) { e.preventDefault(); go(1); }
   else if (KEYS_PREV.has(k)) { e.preventDefault(); go(-1); }
@@ -175,6 +400,10 @@ addEventListener('hashchange', () => {
   if (n >= 1 && n <= slides.length) show(n - 1);
 });
 
+// A note being typed when the tab closes is still a note.
+addEventListener('beforeunload', commitNote);
+addEventListener('visibilitychange', () => { if (document.hidden) commitNote(); });
+
 /* ── boot ───────────────────────────────────────────── */
 const start = parseInt(location.hash.slice(1), 10);
 if (start >= 1 && start <= slides.length) {
@@ -182,5 +411,6 @@ if (start >= 1 && start <= slides.length) {
   i = start - 1;
 }
 paint();
+paintClock();
 enter(slides[i]);
 })();
