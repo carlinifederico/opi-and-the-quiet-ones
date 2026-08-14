@@ -50,19 +50,70 @@ const go = d => show(i + d);
 function enter(s) {
   s.querySelectorAll('video[data-loop]').forEach(v => { v.currentTime = 0; v.play().catch(() => {}); });
   if (s.hasAttribute('data-teaser')) playTeaser();
+  warm(i + 1);
 }
 
 function leave(s) {
   s.querySelectorAll('video').forEach(v => v.pause());
+  if (s.hasAttribute('data-teaser')) stopWatching();
 }
 
-/* ── teaser ─────────────────────────────────────────── */
+/* The teaser is 6 MB and the closing reel another 5. Neither can start from cold on
+   the frame it appears, so the screen before each one puts the file on the wire. */
+const warmed = new WeakSet();
+function warm(n) {
+  const s = slides[n];
+  if (!s) return;
+  s.querySelectorAll('video').forEach(v => {
+    if (warmed.has(v)) return;
+    warmed.add(v);
+    if (v.preload === 'none') v.preload = 'auto';
+    v.load();
+  });
+}
+
+/* ── teaser ──────────────────────────────────────────────────────────────
+   Screen 9 has to start on its own, and muted playback is the only kind a
+   browser will always allow. So: start muted, and lift the mute once it is
+   genuinely running and the presenter has given us a gesture to lift it with.
+   Nothing here trusts play() to succeed — the watchdog reloads once, and if the
+   file still will not move it hands over a button rather than a dead poster. */
+let watchdog = null, tries = 0;
+
 function playTeaser() {
   if (!teaser) return;
+  stopWatching();
   teaser.currentTime = 0;
-  teaser.muted = !gestured;
-  teaser.play().catch(() => { teaser.muted = true; teaser.play().catch(() => {}); });
-  paintSound();
+  teaser.muted = true;
+  tries = 0;
+  attempt();
+}
+
+function attempt() {
+  teaser.play().then(unmute, () => {});
+  watchdog = setTimeout(check, 900);
+}
+
+function check() {
+  if (!onTeaser()) return;
+  if (!teaser.paused && teaser.readyState >= 2) return;   // running, nothing to do
+  if (++tries <= 2) { teaser.load(); teaser.muted = true; attempt(); }
+  else document.body.classList.add('teaser-stuck');
+}
+
+function stopWatching() {
+  clearTimeout(watchdog);
+  watchdog = null;
+  document.body.classList.remove('teaser-stuck');
+}
+
+const onTeaser = () => !!teaser && slides[i].hasAttribute('data-teaser');
+
+function unmute() {
+  if (!gestured || !onTeaser()) return;
+  teaser.muted = false;
+  // A browser that will not have it answers the unmute with a pause. Take the hint.
+  if (teaser.paused) { teaser.muted = true; teaser.play().catch(() => {}); }
 }
 
 function paintSound() {
@@ -72,11 +123,22 @@ function paintSound() {
   soundBtn.firstElementChild.textContent = on ? 'sound on' : 'sound off';
 }
 
+// the label follows the element rather than our hopes for it
+if (teaser) ['play', 'pause', 'volumechange'].forEach(e => teaser.addEventListener(e, paintSound));
+
 if (soundBtn) soundBtn.addEventListener('click', e => {
   e.stopPropagation();
+  gestured = true;
   teaser.muted = !teaser.muted;
-  if (!teaser.muted && teaser.paused) teaser.play().catch(() => {});
-  paintSound();
+  if (teaser.paused) teaser.play().catch(() => {});
+  document.body.classList.remove('teaser-stuck');
+});
+
+const playBtn = document.getElementById('teaserplay');
+if (playBtn) playBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  gestured = true;
+  playTeaser();
 });
 
 /* ── presenter notes ─────────────────────────────────────────────────────
@@ -371,11 +433,25 @@ addEventListener('keydown', e => {
 prevBtn.addEventListener('click', () => { gestured = true; go(-1); });
 nextBtn.addEventListener('click', () => { gestured = true; go(1); });
 
+/* Anything that can genuinely scroll scrolls itself instead of turning the page:
+   the notes panel, and on a narrow window the back-half screens that stack and
+   overflow. Measured at event time, so on a laptop — where nothing overflows —
+   the wheel still moves the deck. */
+function scrolls(el) {
+  if (el && el.closest && el.closest('.notespanel')) return true;
+  for (let n = el; n && n !== document.body; n = n.parentElement) {
+    if (n.scrollHeight > n.clientHeight + 2) {
+      const oy = getComputedStyle(n).overflowY;
+      if (oy === 'auto' || oy === 'scroll') return true;
+    }
+  }
+  return false;
+}
+
 let wheelLock = 0;
 addEventListener('wheel', e => {
   gestured = true;
-  // let the open notes panel scroll on its own
-  if (e.target.closest && e.target.closest('.notespanel')) return;
+  if (scrolls(e.target)) return;
   const now = Date.now();
   if (now - wheelLock < 700 || Math.abs(e.deltaY) < 12) return;
   wheelLock = now;
@@ -385,7 +461,7 @@ addEventListener('wheel', e => {
 let touchY = null;
 addEventListener('touchstart', e => {
   gestured = true;
-  touchY = e.target.closest && e.target.closest('.notespanel') ? null : e.touches[0].clientY;
+  touchY = scrolls(e.target) ? null : e.touches[0].clientY;
 }, { passive: true });
 addEventListener('touchend', e => {
   if (touchY === null) return;

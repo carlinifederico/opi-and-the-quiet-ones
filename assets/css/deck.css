@@ -5,6 +5,9 @@
   --ink:#08080A;
   --cream:#F3EFE6;
   --gold:#F5B722;
+  /* the second accent is lifted out of the art itself — Opi's own blue-teal —
+     so the two screens that need a "this one, not that one" have somewhere to go */
+  --teal:#63B4C6;
   --dim:rgba(243,239,230,.62);
   --pad:clamp(2rem,5.5vw,6rem);
   --ease:cubic-bezier(.22,.61,.36,1);
@@ -50,9 +53,31 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 .scrim{position:absolute;inset:0;pointer-events:none}
 .scrim--full{background:rgba(8,8,10,.5)}
+/* light enough that the plate underneath still reads as a texture and not as grey */
+.scrim--soft{background:rgba(8,8,10,.34)}
+/* for the screens that are read rather than looked at, where the art is wallpaper */
+.scrim--heavy{background:rgba(8,8,10,.72)}
 .scrim--bottom{background:linear-gradient(to top,rgba(8,8,10,.97) 0%,rgba(8,8,10,.9) 24%,rgba(8,8,10,.55) 46%,rgba(8,8,10,0) 78%)}
+.scrim--top{background:linear-gradient(to bottom,rgba(8,8,10,.96) 0%,rgba(8,8,10,.86) 22%,rgba(8,8,10,.5) 44%,rgba(8,8,10,0) 76%)}
 .scrim--left{background:linear-gradient(to right,rgba(8,8,10,.96) 0%,rgba(8,8,10,.88) 26%,rgba(8,8,10,.5) 50%,rgba(8,8,10,0) 82%)}
 .scrim--right{background:linear-gradient(to left,rgba(8,8,10,.93) 0%,rgba(8,8,10,.7) 34%,rgba(8,8,10,0) 76%)}
+
+/* Corner scrims, for the story lines that sit in a quarter of the frame rather than
+   across the bottom: one vertical ramp plus one horizontal, so the far corner of the
+   painting stays as bright as it was. */
+.scrim--bl,.scrim--br,.scrim--tl,.scrim--tr{background-repeat:no-repeat}
+.scrim--bl{background-image:
+  linear-gradient(to top,rgba(8,8,10,.94) 0%,rgba(8,8,10,.66) 26%,rgba(8,8,10,0) 62%),
+  linear-gradient(to right,rgba(8,8,10,.78) 0%,rgba(8,8,10,.3) 38%,rgba(8,8,10,0) 68%)}
+.scrim--br{background-image:
+  linear-gradient(to top,rgba(8,8,10,.94) 0%,rgba(8,8,10,.66) 26%,rgba(8,8,10,0) 62%),
+  linear-gradient(to left,rgba(8,8,10,.78) 0%,rgba(8,8,10,.3) 38%,rgba(8,8,10,0) 68%)}
+.scrim--tl{background-image:
+  linear-gradient(to bottom,rgba(8,8,10,.92) 0%,rgba(8,8,10,.62) 26%,rgba(8,8,10,0) 62%),
+  linear-gradient(to right,rgba(8,8,10,.78) 0%,rgba(8,8,10,.3) 38%,rgba(8,8,10,0) 68%)}
+.scrim--tr{background-image:
+  linear-gradient(to bottom,rgba(8,8,10,.92) 0%,rgba(8,8,10,.62) 26%,rgba(8,8,10,0) 62%),
+  linear-gradient(to left,rgba(8,8,10,.78) 0%,rgba(8,8,10,.3) 38%,rgba(8,8,10,0) 68%)}
 
 /* ── the box the words live in ──────────────────────── */
 .hold{
@@ -170,108 +195,261 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .sound:hover{color:var(--cream);border-color:rgba(243,239,230,.5)}
 .sound.on{color:var(--gold);border-color:rgba(245,183,34,.5)}
 
+/* If the teaser still has not started after two goes, the presenter gets something to
+   press. A dead poster frame mid-pitch is the one failure worth designing for. */
+.teaserplay{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:clamp(72px,8vw,110px);aspect-ratio:1;border-radius:50%;
+  border:1.5px solid rgba(243,239,230,.7);background:rgba(8,8,10,.45);
+  display:none;
+}
+body.teaser-stuck .teaserplay{display:block}
+.teaserplay::after{
+  content:'';position:absolute;left:56%;top:50%;transform:translate(-50%,-50%);
+  border-left:clamp(20px,2.2vw,30px) solid rgba(243,239,230,.92);
+  border-top:clamp(13px,1.4vw,19px) solid transparent;
+  border-bottom:clamp(13px,1.4vw,19px) solid transparent;
+}
+.teaserplay:hover{border-color:var(--gold)}
+
 /* ── the story: one screen per scene ─────────────────────────────────────
-   The art carries the screen and the line sits on it. Wide, low, and quiet —
-   these are read in two seconds and then talked over. */
-.slide--scene .hold--bottom{max-width:min(64ch,62%);gap:.7rem;padding-bottom:calc(var(--pad) * .9)}
+   The art carries the screen and the line sits on it — bigger than the rest of the
+   deck's body copy, because these are read in two seconds and then talked over.
+   Where the line sits changes from screen to screen: each one is placed in the
+   emptiest, darkest quarter of its own painting, which is why the modifiers below
+   exist instead of one shared bottom bar. */
+/* The box stays full-bleed and the children carry the measure, so a line can be
+   pinned to any corner without the column collapsing to shrink-to-fit. */
+.slide--scene .hold{gap:.72rem;align-items:stretch;max-width:none}
+.slide--scene .hold>*{max-width:min(54ch,52%)}
+.slide--scene .hold--bl,
+.slide--scene .hold--br{justify-content:flex-end;padding-bottom:calc(var(--pad) * .9)}
+.slide--scene .hold--tl,
+.slide--scene .hold--tr{justify-content:flex-start;padding-top:calc(var(--pad) * 1.15)}
+.slide--scene .hold--ml{justify-content:center}
+/* right-hand lines hang off the right edge and set ragged-left */
+.slide--scene .hold--br,
+.slide--scene .hold--tr{text-align:right}
+.slide--scene .hold--br>*,
+.slide--scene .hold--tr>*{margin-left:auto}
+
 .sceneline{
   font-family:Fraunces,Georgia,serif;
   font-variation-settings:'SOFT' 40,'WONK' 1,'opsz' 110;
   font-weight:340;
-  font-size:clamp(1.8rem,4vw,3.7rem);
-  line-height:1.1;letter-spacing:-.012em;text-wrap:balance;
+  font-size:clamp(2.05rem,4.8vw,4.4rem);
+  line-height:1.08;letter-spacing:-.014em;text-wrap:balance;
   color:var(--cream);
 }
 .sceneline em{font-style:normal;color:var(--gold)}
 .scenenote{
-  font-size:clamp(.88rem,1.15vw,1.05rem);line-height:1.5;
-  color:var(--dim);font-weight:300;max-width:58ch;
+  font-size:clamp(.92rem,1.2vw,1.1rem);line-height:1.5;
+  color:var(--dim);font-weight:300;max-width:52ch;
 }
 /* the two screens that carry the weight of the act break get a taller line */
-.slide--turn .sceneline{font-size:clamp(2rem,4.6vw,4.2rem)}
-.slide--turn .hold--bottom{max-width:min(70ch,68%)}
+.slide--turn .sceneline{font-size:clamp(2.3rem,5.4vw,4.9rem)}
+.slide--turn .hold>*{max-width:min(62ch,60%)}
 
-/* ── lists on the status / ask screens ──────────────── */
-.rows{list-style:none;display:grid;gap:.05rem;margin-top:1.6rem;text-align:left;width:min(58ch,100%)}
-.rows li{display:grid;grid-template-columns:minmax(9rem,auto) 1fr;gap:1.4rem;padding:.72rem 0;border-top:1px solid rgba(243,239,230,.14)}
-.rows li:last-child{border-bottom:1px solid rgba(243,239,230,.14)}
-.rows b{color:var(--gold);font-weight:500;font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;padding-top:.22rem}
-.rows span{color:var(--dim);font-size:clamp(.9rem,1.15vw,1.05rem);font-weight:300;line-height:1.45}
-.rows--ask li{align-items:start}
+/* The chapter label, on the first story screen only. Grey and barely there: it is a
+   signpost for the reader, not a title, and it must not compete with the line. */
+.chaptermark{
+  position:absolute;top:calc(var(--pad) * .8);left:var(--pad);z-index:2;
+  font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;font-weight:400;
+  color:rgba(243,239,230,.26);
+}
+.is-on .chaptermark{animation:rise .9s var(--ease) both}
 
-/* the character sheet pinned onto the status screen */
+/* ═══ the back half ══════════════════════════════════════════════════════
+   Screens 29 to 34 all share one shape: a title block on the left and the
+   evidence on the right, on a two-column grid that collapses to one on a phone.
+   They are the screens people read rather than watch, so they get structure. */
+.ipwrap,.statuswrap,.askwrap{
+  position:absolute;inset:0;padding:var(--pad);
+  display:grid;grid-template-columns:minmax(0,34%) minmax(0,1fr);
+  gap:clamp(1.6rem,3.4vw,4rem);align-items:center;
+}
+.is-on .ipwrap>*,.is-on .statuswrap>*,.is-on .askwrap>*,
+.is-on .planwrap>*{animation:rise .95s var(--ease) both}
+.is-on .ipwrap>*:nth-child(2),.is-on .statuswrap>*:nth-child(2),
+.is-on .askwrap>*:nth-child(2),.is-on .planwrap>*:nth-child(2){animation-delay:.12s}
+.is-on .planwrap>*:nth-child(3){animation-delay:.24s}
+
+.iphead,.statushead,.askhead,.planhead{display:flex;flex-direction:column;gap:.9rem;align-items:flex-start}
+.iphead .statement,.statushead .statement,.askhead .statement{font-size:clamp(2rem,4.2vw,3.9rem)}
+
+/* ── 29 · the IP: one idea, four outputs ─────────────────────────────────
+   The four worlds are the argument here, so they get most of the frame. */
+.ipwrap{grid-template-columns:minmax(250px,27%) minmax(0,1fr)}
+.iphead .eyebrow{font-size:.84rem;letter-spacing:.3em}
+.outputs{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:clamp(.8rem,1.7vw,1.7rem)}
+.output figure{
+  aspect-ratio:2/1;overflow:hidden;line-height:0;
+  border:1px solid rgba(243,239,230,.14);
+  box-shadow:0 16px 40px rgba(0,0,0,.6);
+}
+.output img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.output b{
+  display:block;margin-top:.6rem;
+  color:var(--gold);font-weight:500;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+}
+.output span{
+  display:block;margin-top:.2rem;
+  color:var(--dim);font-weight:300;font-size:clamp(.78rem,.95vw,.94rem);line-height:1.45;
+}
+
+/* ── 30 · where we are ─────────────────────────────────────────────────── */
+.statuswrap{grid-template-columns:minmax(0,44%) minmax(0,1fr)}
+.cards{list-style:none;display:grid;gap:.5rem;width:min(62ch,100%);margin-top:.4rem}
+.card{
+  display:grid;grid-template-columns:minmax(7rem,auto) 1fr auto;
+  gap:.4rem 1.2rem;align-items:baseline;
+  padding:.7rem .95rem;border-radius:3px;
+  border-left:2px solid var(--accent);
+  background:linear-gradient(to right,var(--wash),transparent 70%);
+}
+.card--done{--accent:var(--gold);--wash:rgba(245,183,34,.13)}
+.card--now{--accent:var(--teal);--wash:rgba(99,180,198,.13)}
+.card b{color:var(--accent);font-weight:500;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase}
+.card span{color:var(--cream);font-weight:300;font-size:clamp(.86rem,1.05vw,1rem);line-height:1.4;opacity:.86}
+.card i{
+  font-style:normal;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);opacity:.75;white-space:nowrap;
+}
+
+/* the character sheet, at the size the deck gives it rather than a thumbnail */
 .artcard{
-  width:min(440px,100%);margin-top:1.5rem;
+  width:100%;line-height:0;
   border:1px solid rgba(243,239,230,.18);
-  box-shadow:0 18px 44px rgba(0,0,0,.6);
-  overflow:hidden;line-height:0;
+  box-shadow:0 22px 54px rgba(0,0,0,.65);
+  overflow:hidden;
 }
-.artcard video{width:100%;height:auto;opacity:.9}
+/* the aspect ratio is declared so the card does not collapse to 150px while the
+   file is still on the wire and videoWidth is 0 */
+.artcard video{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;opacity:.94}
+.artcard figcaption{
+  line-height:1.4;padding:.55rem .8rem;background:rgba(8,8,10,.75);
+  font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);
+}
 
-.quote{
-  font-family:Fraunces,Georgia,serif;
-  font-variation-settings:'SOFT' 40,'WONK' 1,'opsz' 100;
-  font-weight:330;font-style:italic;
-  font-size:clamp(1.35rem,2.9vw,2.6rem);
-  line-height:1.24;max-width:24ch;text-wrap:balance;
+/* ── 32 · the ask ──────────────────────────────────────────────────────── */
+.asks{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:clamp(.7rem,1.5vw,1.4rem)}
+.asks li{
+  display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;
+  column-gap:1.1rem;row-gap:.3rem;align-content:center;
+  padding:clamp(1.1rem,2vw,1.7rem);
+  border:1px solid rgba(243,239,230,.12);border-radius:3px;
+  background:rgba(243,239,230,.03);
 }
-.quote em{font-style:normal;color:var(--gold)}
-.thanks{font-family:Fraunces,serif;font-size:clamp(1.1rem,2vw,1.7rem);color:var(--dim);margin-top:.6rem}
+.ico{
+  grid-row:1 / span 2;width:clamp(30px,2.9vw,44px);height:auto;aspect-ratio:1;
+  fill:none;stroke:var(--gold);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;
+  opacity:.9;align-self:start;
+}
+.asks b{color:var(--cream);font-weight:500;font-size:clamp(.95rem,1.25vw,1.15rem);letter-spacing:.01em}
+.asks span{color:var(--dim);font-weight:300;font-size:clamp(.8rem,.98vw,.95rem);line-height:1.45}
 
-/* ── the feature screen: the film inside its medium ─── */
-.tvwrap{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:clamp(1.2rem,2.6vh,2.4rem);padding:var(--pad);
+/* ── 31 · the plan ─────────────────────────────────────────────────────
+   A three-month bar chart, no calendar dates: the months are relative to the day
+   the money lands, which is the only honest way to date a plan nobody has signed. */
+.planwrap{
+  position:absolute;inset:0;padding:var(--pad);
+  display:flex;flex-direction:column;justify-content:center;
+  gap:clamp(1rem,2.6vh,2.2rem);
 }
-.is-on .tvwrap>*{animation:rise 1s var(--ease) both}
-.is-on .tvwrap>*:nth-child(2){animation-delay:.12s}
-.is-on .tvwrap>*:nth-child(3){animation-delay:.26s}
+.planhead .statement{font-size:clamp(1.6rem,3.2vw,3rem)}
 
-.tv{width:min(62vw,860px);max-height:52vh;display:flex;flex-direction:column;align-items:center}
-.tv-screen{
-  position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;
-  border-radius:6px;
-  border:1px solid rgba(243,239,230,.16);
-  box-shadow:0 0 0 6px #16161a, 0 30px 70px rgba(0,0,0,.75);
-  background:#000;
+.gantt{display:flex;flex-direction:column;gap:.55rem}
+.tracks{list-style:none}
+.gantt-months,.track{display:grid;grid-template-columns:minmax(8rem,13rem) 1fr;gap:clamp(.8rem,1.6vw,1.6rem)}
+.gantt-months{grid-template-columns:minmax(8rem,13rem) repeat(3,1fr)}
+.gantt-months b{
+  font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--dim);font-weight:400;padding-bottom:.3rem;
 }
-.tv-screen>img{width:100%;height:100%;object-fit:cover;object-position:center 38%}
-.tv-ui{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;justify-content:flex-end;
-  padding:clamp(.9rem,2.2vw,2rem);
-  background:linear-gradient(to top,rgba(8,8,10,.88) 0%,rgba(8,8,10,.35) 42%,rgba(8,8,10,0) 72%);
-}
-.tv-title{width:min(46%,300px);height:auto;margin-bottom:.5rem}
-.tv-meta{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
-.tv-play{
-  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:clamp(44px,5vw,66px);aspect-ratio:1;border-radius:50%;
-  border:1.5px solid rgba(243,239,230,.75);
-}
-.tv-play::after{
-  content:'';position:absolute;left:54%;top:50%;transform:translate(-50%,-50%);
-  border-left:clamp(12px,1.4vw,18px) solid rgba(243,239,230,.9);
-  border-top:clamp(8px,.9vw,11px) solid transparent;
-  border-bottom:clamp(8px,.9vw,11px) solid transparent;
-}
-.tv-stand{width:22%;height:clamp(8px,1.2vh,14px);background:#16161a;border-radius:0 0 4px 4px}
+.gantt-months b:first-of-type{grid-column:2}
 
-.actline{
+.track{align-items:center;padding:.4rem 0}
+.track>span{
+  font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(243,239,230,.75);font-weight:400;
+}
+/* the lane carries its own month dividers, so nothing has to line up by hand.
+   Deliberately not called .rail — that name belongs to the nav's progress bar. */
+.lane{
+  position:relative;height:clamp(.85rem,1.9vh,1.25rem);border-radius:.5rem;
+  background:rgba(243,239,230,.07);
+}
+/* the two month divisions, drawn rather than computed into a gradient */
+.lane::before,.lane::after{
+  content:'';position:absolute;top:-.25rem;bottom:-.25rem;width:1px;
+  background:rgba(243,239,230,.22);
+}
+.lane::before{left:33.333%}
+.lane::after{left:66.666%}
+.bar{
+  position:absolute;top:0;bottom:0;z-index:1;border-radius:.5rem;
+  left:calc(var(--from) / 3 * 100%);
+  width:calc((var(--to) - var(--from)) / 3 * 100%);
+}
+.bar--gold{background:rgba(245,183,34,.78)}
+.bar--teal{background:rgba(99,180,198,.72)}
+.bar--cream{background:rgba(243,239,230,.42)}
+.bar--now{background:var(--gold);box-shadow:0 0 18px rgba(245,183,34,.55)}
+
+.milestones{
   list-style:none;display:grid;grid-template-columns:repeat(3,1fr);
-  width:min(62vw,860px);gap:clamp(.6rem,1.6vw,1.4rem);
+  gap:clamp(.7rem,1.6vw,1.4rem);margin-top:.4rem;
 }
-.actline li{
-  display:grid;place-items:center;
-  padding:clamp(.5rem,1.4vh,1.1rem) 0;
+.milestones li{
+  padding:clamp(.8rem,1.5vw,1.15rem);
   border-top:2px solid rgba(245,183,34,.45);
+  background:rgba(243,239,230,.03);
 }
-.actline span{
-  font-family:Fraunces,serif;font-variation-settings:'opsz' 144,'SOFT' 0,'WONK' 0;
-  font-weight:600;color:var(--gold);
-  font-size:clamp(1.8rem,5vw,4.4rem);line-height:1;letter-spacing:.04em;
+.milestones b{
+  display:block;color:var(--gold);font-weight:500;
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.35rem;
 }
+.milestones span{color:var(--dim);font-weight:300;font-size:clamp(.78rem,.95vw,.92rem);line-height:1.5}
+
+/* ── 33 · the coda ─────────────────────────────────────────────────────
+   The last words in the deck, so they get the whole frame: three lines stepped
+   across the middle, reading down and to the right. */
+.coda{
+  position:absolute;inset:0;padding:var(--pad);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;
+}
+.coda span{
+  display:block;
+  font-family:Fraunces,Georgia,serif;
+  font-variation-settings:'SOFT' 60,'WONK' 1,'opsz' 120;
+  font-weight:320;font-style:italic;
+  font-size:clamp(2rem,6.2vw,5.6rem);
+  line-height:1.04;letter-spacing:-.02em;
+}
+.coda span:nth-child(1){--x:-15%;transform:translate(-15%,0)}
+.coda span:nth-child(2){--x:-1%;transform:translate(-1%,0)}
+.coda span:nth-child(3){--x:13%;transform:translate(13%,0)}
+.coda em{font-style:italic;color:var(--gold)}
+.is-on .coda span{animation:coda 1.1s var(--ease) both}
+.is-on .coda span:nth-child(2){animation-delay:.22s}
+.is-on .coda span:nth-child(3){animation-delay:.44s}
+@keyframes coda{from{opacity:0;transform:translate(var(--x,0),20px)}}
+
+/* ── 34 · the close: the studio reel behind the mark ───────────────────── */
+.slide--close{background:#05070d}
+.closevid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* the reel is bright and fast-cut where the rest of the deck is not; it takes a firm
+   scrim both to keep the mark legible and to keep the ending in the same family */
+.closescrim{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(110% 95% at 50% 50%,rgba(8,8,10,.62) 0%,rgba(8,8,10,.88) 100%);
+}
+.closemark{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:clamp(150px,17vw,290px);height:auto;
+}
+.is-on .closemark{animation:rise 1.4s var(--ease) both;animation-delay:.35s}
 
 /* ── presenter notes ─────────────────────────────────────────────────────
    The panel lives outside #deck so the slide shrinks above it instead of being
@@ -423,9 +601,29 @@ body.time-up::after{
 @media (max-width:820px){
   .hold--left,.hold--right,.hold--bottom{max-width:100%;left:0;right:0}
   .scrim--left,.scrim--right{background:linear-gradient(to top,rgba(8,8,10,.94) 0%,rgba(8,8,10,.7) 40%,rgba(8,8,10,.25) 100%)}
-  .rows li{grid-template-columns:1fr;gap:.15rem}
-  .tv,.actline{width:88vw}
-  .slide--scene .hold--bottom,.slide--turn .hold--bottom{max-width:100%;padding-bottom:calc(var(--pad) * .8 + 3.2rem)}
+  /* no room to move a line around a phone: every story screen goes back to the bottom */
+  .slide--scene .hold,.slide--turn .hold{
+    text-align:left;justify-content:flex-end;
+    padding-top:var(--pad);padding-bottom:calc(var(--pad) * .8 + 3.2rem);
+  }
+  .slide--scene .hold>*,.slide--turn .hold>*{max-width:100%;margin-left:0}
+  .scrim--bl,.scrim--br,.scrim--tl,.scrim--tr,.scrim--top{
+    background-image:linear-gradient(to top,rgba(8,8,10,.96) 0%,rgba(8,8,10,.82) 34%,rgba(8,8,10,.3) 68%,rgba(8,8,10,0) 100%)}
+  /* the back half stacks: words first, evidence under them */
+  .ipwrap,.statuswrap,.askwrap{
+    grid-template-columns:1fr;align-content:center;
+    gap:1.1rem;padding-bottom:calc(var(--pad) + 3.2rem);overflow-y:auto;
+  }
+  .outputs,.asks,.milestones{grid-template-columns:1fr}
+  .outputs{gap:.7rem}
+  .output figure{aspect-ratio:16/7}
+  /* the label gutter goes, so the months run the full width above the lanes */
+  .track{grid-template-columns:1fr;gap:.25rem;padding:.3rem 0}
+  .gantt-months{grid-template-columns:repeat(3,1fr)}
+  .gantt-months b:first-of-type{grid-column:1}
+  .planwrap{gap:.9rem;padding-bottom:calc(var(--pad) + 3.2rem);overflow-y:auto}
+  .coda span{font-size:clamp(1.8rem,9vw,3rem)}
+  .coda span:nth-child(1),.coda span:nth-child(2),.coda span:nth-child(3){--x:0;transform:none}
   .clock{padding:.26rem .55rem .26rem .42rem;font-size:.66rem;letter-spacing:.06em;gap:.35rem}
   .clock-ring{width:18px}
   /* The project screens. No corner to tuck the loop into on a phone, so it goes up top at full
@@ -453,5 +651,7 @@ body.time-up::after{
 }
 @media (prefers-reduced-motion:reduce){
   .bg img,.bg video{transition:none;transform:none}
-  .is-on .hold>*,.is-on .tvwrap>*{animation:none}
+  .is-on .hold>*,.is-on .chaptermark,.is-on .closemark,
+  .is-on .ipwrap>*,.is-on .statuswrap>*,.is-on .askwrap>*,.is-on .planwrap>*{animation:none}
+  .is-on .coda span{animation:none}
 }

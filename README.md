@@ -2,11 +2,12 @@
 
 Live: https://carlinifederico.github.io/opi-and-the-quiet-ones/ (public repo, `noindex`)
 
-A 32-screen deck built to be **spoken over**, not read. All English. Rebuilt from scratch on
+A 34-screen deck built to be **spoken over**, not read. All English. Rebuilt from scratch on
 2026-08-06 following the structure of the Google Slides
 [Venice Pitch Deck STRUCTURE](https://docs.google.com/presentation/d/1mwgtz6ICPVdQ9cslkzLoaliqTfGHmQmKZ9qU8iwr4BI/edit);
 the story act was rebuilt on 2026-08-13 from the narrative treatment (`VR v3.0`) and the
-synopsis told from Opi (`TSB - Sinopsis desde Opi`, version 2).
+synopsis told from Opi (`TSB - Sinopsis desde Opi`, version 2). The back half — the IP,
+the status, the plan and the two closing screens — was rebuilt on 2026-08-13.
 
 ## Driving it
 
@@ -20,9 +21,19 @@ synopsis told from Opi (`TSB - Sinopsis desde Opi`, version 2).
 | The clock | `T` starts and pauses, `shift T` resets — or click the chip in the nav |
 | Teaser sound | the `sound` button, bottom right of screen 9 |
 
-The teaser plays **with sound** as long as you have already pressed a key or clicked
-(you will have, getting there). Cold-opening straight to `/#9` starts it muted — browsers
-do not allow otherwise.
+### The teaser on screen 9
+
+It starts on its own. Muted playback is the only kind a browser will always allow, so the
+video starts muted and `deck.js` lifts the mute the moment it is genuinely running — which
+gives you sound as long as you have already pressed a key or clicked, and you will have,
+getting there. Cold-opening straight to `/#9` stays muted; the `sound` chip toggles it and
+always reports the element's real state rather than what we asked for.
+
+Two more things guard it, because a dead poster frame mid-pitch is the failure worth
+designing for. Screen 8 puts the 6 MB file on the wire a screen early (the same trick warms
+the closing reel on screen 33). And a watchdog checks 900 ms after arrival: if the video is
+not moving it reloads and retries twice, and only then shows a large play button over the
+poster. If you ever see that button, the network is the problem, not the deck.
 
 ## The seven-minute clock
 
@@ -68,17 +79,19 @@ if you ever want them back.
 | 6 | "We have never been so connected and so alone." |
 | 7 | "Why does being alone frighten us so much?" |
 | 8 | "If there is so much to learn from it…" |
-| 9 | Title card — the teaser, autoplay |
+| 9 | Title card — the teaser, starts by itself |
 | 10 | Opi — the shape loneliness takes |
 | 11 | Visiting solitudes — the format |
 | 12–19 | **The story · act one** — Opi watches, and learns |
 | 20–26 | **The story · act two** — Opi intervenes |
 | 27 | **The story · you** — the viewer in front of Opi |
-| 28 | The reflection |
-| 29 | If this were a feature — three acts |
+| 28 | The reflection — on the neutral plate from screen 5 |
+| 29 | The IP — one idea, four outputs |
 | 30 | Where we are |
-| 31 | What we're looking for |
-| 32 | No loneliness is ever entirely alone |
+| 31 | The plan — three months to a playable prototype |
+| 32 | What we're looking for |
+| 33 | The coda — no loneliness is ever entirely alone |
+| 34 | The close — 3dar's reel behind the mark |
 
 ### The story, screen by screen
 
@@ -109,13 +122,38 @@ Screen 19 is the hinge the whole act turns on — Opi stops watching and starts 
 the only screen in the story block that carries an eyebrow label. Screen 27 is the close: the line
 is the treatment's own last line, and the art is the viewer wearing the headset.
 
+Screen 12 is the only one in the block that names the chapter — a grey, low-opacity
+`The Story ···` top left. The other fifteen are art and one line.
+
+**Where each line sits** is chosen off the painting, not off a rotation: every headline is
+placed in the emptiest, darkest quarter of its own frame. Four placements exist
+(`hold--bl` `hold--br` `hold--tl` `hold--tr`) plus a vertically-centred `hold--ml` for the two
+screens with a black half — 06, the window cleaner, and 09, the road at night. Each gets a
+matching corner scrim built from one vertical ramp plus one horizontal, so the far corner of
+the art stays as bright as it was. On a phone they all collapse back to the bottom: there is
+no room to move a line around a 390px screen.
+
 Screens 2, 3 and 4 are one shape: art on one side, the words and the laurel row on the other, and
 the project's own loop in the opposite bottom corner. The loops are silent, restart from frame 0
 every time you enter the screen, and pause when you leave. On a phone the loop card steps out —
 there is no corner left for it, and the laurels are what has to survive.
 
-Screen 29 puts the key art inside a streaming frame — the film shown in the medium it would
-live in — over the three acts. No body copy on screen.
+### The back half
+
+Screens 29 to 32 share one shape: a title block on the left, the evidence on the right, on a
+two-column grid that stacks on a phone. They are the screens people read rather than watch.
+
+- **29 · the IP** — four generated worlds (screen, installation, VR, AR) in a 2×2 grid. The
+  argument is that Opi is a character and a rule, not a format.
+- **30 · where we are** — the character-sheet loop at 1280 rather than 900, and the four rows
+  turned into colour-coded cards: gold for what is done, teal for what is next.
+- **31 · the plan** — a three-month bar chart with no calendar dates, because the months are
+  relative to the day the money lands. Pure CSS; the bars carry `--from` / `--to` in months.
+- **32 · the ask** — the same four rows with inline SVG icons, no icon font.
+- **33 · the coda** — the last line, three steps across the middle, on a diagonal.
+- **34 · the close** — 3dar's own reel from `fifapitch.com/avatar`, full-bleed under a firm
+  radial scrim, with the vector wordmark centred. Its `preload` is `none` until screen 33
+  warms it, so five megabytes never compete with the teaser on page load.
 
 ## Assets
 
@@ -137,6 +175,15 @@ Sources — `H:\Shared drives\BROTACIONES\`:
 | `03/04/05-*-loop.mp4` | `…\MAT\GIFS\gloomy.gif`, `birds.gif`, `eggscape.gif` |
 | `credits/aw-*-*.webp` | `…\MAT\AWARDS\` — see below |
 | `03/04/05-*` | kept from the previous build (extracted from the PPTX) |
+| `ip/{home,installation,vr,ar}.webp` | `…\ALL CONCEPTS\IP OUTPUTS\` — generated, see below |
+| `34-close.mp4` | `…\MAT\CLOSE\close-loop-src.mp4`, pulled from `fifapitch.com/avatar` |
+| `logo-3dar.svg` | the inline wordmark from the same page, lifted to a standalone file |
+
+The four IP images were **generated** with Seedream against the deck's own art direction
+(near-black teal, gold eyes, painterly) rather than painted, and the last two were regenerated
+with `30-opis.webp` and `11-opi.webp` as character references — the first pass drew a cat.
+`build-assets.sh` crops 200px off the bottom of each: the provider stamps an "AI generated"
+badge into that corner.
 
 The Opi wordmark has no alpha channel of its own — the PSD exports flat ink on grey paper.
 `build-assets.sh` lifts the alpha from ink density (`alpha = (234 − luma) / 234`) and repaints
@@ -178,5 +225,11 @@ has to work on a festival wifi, or none.
   the deck's own copies. Colin Farrell comes from a ~480px source, Norton and Stone from ~300px.
 - **The loops are 600×338 and 800×450** — the size the Slides deck stored them at. In a 340px card
   that is fine; they would not survive full-bleed.
+- **The closing reel is 1152×648 at CRF 34, 5.5 MB for 78 seconds.** It is a fast-cut colour reel,
+  which is the worst thing to compress, and it plays full-bleed. Behind that scrim it holds up;
+  at 1280 it was 7 MB, which is too much to carry for one screen.
+- **`29-spotlight.webp`, `30-roses.webp` and `logo-opi.webp` are no longer used** by any screen —
+  the old feature screen was the last thing that referenced them. `build-assets.sh` still makes
+  them, in case the TV framing ever comes back.
 - **The notes live in one browser at a time.** That is the trade for having no backend. Export
   before switching machines, and hand the file over if they should be committed here.

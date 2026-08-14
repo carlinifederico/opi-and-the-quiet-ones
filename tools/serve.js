@@ -16,18 +16,24 @@ http.createServer((req, res) => {
     if (err || !st.isFile()) { res.writeHead(404).end('not found'); return; }
     // range requests so <video> can seek
     const type = types[path.extname(file).toLowerCase()] || 'application/octet-stream';
+    // Never cache while previewing: an edited deck.css that the browser kept is an
+    // hour of debugging a bug you already fixed.
+    const noCache = 'no-store, must-revalidate';
     const range = req.headers.range;
     if (range) {
       const [s, e] = range.replace('bytes=', '').split('-');
       const start = parseInt(s, 10), end = e ? parseInt(e, 10) : st.size - 1;
       res.writeHead(206, {
-        'Content-Type': type, 'Accept-Ranges': 'bytes',
+        'Content-Type': type, 'Accept-Ranges': 'bytes', 'Cache-Control': noCache,
         'Content-Range': `bytes ${start}-${end}/${st.size}`,
         'Content-Length': end - start + 1,
       });
       fs.createReadStream(file, { start, end }).pipe(res);
     } else {
-      res.writeHead(200, { 'Content-Type': type, 'Content-Length': st.size, 'Accept-Ranges': 'bytes' });
+      res.writeHead(200, {
+        'Content-Type': type, 'Content-Length': st.size,
+        'Accept-Ranges': 'bytes', 'Cache-Control': noCache,
+      });
       fs.createReadStream(file).pipe(res);
     }
   });

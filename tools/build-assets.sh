@@ -13,10 +13,13 @@ TEASER="$TSB/VENICE VIDEO/MAT/OPI_08_h264.mp4"
 DAR="$DRIVE/_MOSAICO/MAT/LOGOP/3DAR Logo_white.png"
 AWARDS="$TSB/_REPO/THE SILENCE BETWEEN/MAT/AWARDS"
 GIFS="$TSB/_REPO/THE SILENCE BETWEEN/MAT/GIFS"
+# generated art, not painted art: the four output worlds on the IP screen
+IPSRC="$ART/IP OUTPUTS"
+CLOSE="$TSB/_REPO/THE SILENCE BETWEEN/MAT/CLOSE/close-loop-src.mp4"
 
 IMG=assets/img
 VID=assets/video
-mkdir -p "$IMG/scenes" "$IMG/credits" "$VID"
+mkdir -p "$IMG/scenes" "$IMG/credits" "$IMG/ip" "$VID"
 
 # still: <src> <out> <maxwidth> <quality>
 still () { ffmpeg -y -v error -i "$1" \
@@ -52,9 +55,25 @@ ffmpeg -y -v error -i "$LOGO/Logo_001 copy.png" -vf \
 ffmpeg -y -v error -i "$DAR" -vf "scale=900:-2:flags=lanczos" \
   -frames:v 1 -c:v libwebp -pix_fmt yuva420p -quality 92 "$IMG/logo-3dar.webp"
 
-echo "· character sheet loop (status screen)"
+echo "· the four IP outputs (p29)"
+# Generated with Seedream against the deck's own art direction and kept in IP OUTPUTS.
+# The bottom 200px go: the provider stamps an "AI generated" badge into that corner.
+ip () { ffmpeg -y -v error -i "$1" \
+  -vf "crop=iw:ih-200:0:0,scale=1600:-2:flags=lanczos" -frames:v 1 -quality 88 -compression_level 6 "$2"; }
+ip "$IPSRC/home.jpg"            "$IMG/ip/home.webp"
+ip "$IPSRC/installation-v2.jpg" "$IMG/ip/installation.webp"
+ip "$IPSRC/vr-v2.jpg"           "$IMG/ip/vr.webp"
+ip "$IPSRC/ar.jpg"              "$IMG/ip/ar.webp"
+
+echo "· character sheet loop (status screen) — 1280, the size of the source GIF"
 ffmpeg -y -v error -i "$OTHER/art.gif" -an -movflags +faststart \
-  -vf "scale=900:-2:flags=lanczos,format=yuv420p" -c:v libx264 -preset slow -crf 27 "$VID/15-art.mp4"
+  -vf "scale=1280:-2:flags=lanczos,format=yuv420p" -c:v libx264 -preset slow -crf 28 "$VID/15-art.mp4"
+
+echo "· closing reel (p34)"
+# 3dar's own studio reel, taken from fifapitch.com/avatar. It runs 78 seconds full-bleed
+# behind a heavy scrim, so it is worth more compression than anything else here.
+ffmpeg -y -v error -i "$CLOSE" -an -movflags +faststart \
+  -vf "scale=1152:-2:flags=lanczos,format=yuv420p" -c:v libx264 -preset slower -crf 34 "$VID/34-close.mp4"
 
 echo "· project loops (p3, p4, p5) — one GIF per project, lifted out of the Venice deck"
 # The three GIFs live inside 'Venice Pitch Deck STRUCTURE.pptx' as ppt/media/image19|30|37.gif.
