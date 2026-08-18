@@ -19,14 +19,52 @@ let i = 0;
 let gestured = false;
 // Whether the presenter wants the panel open. Remembered across slides.
 let wantNotes = false;
+// The stylesheet already drops every animation under this; the plate cut has to agree.
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 totEl.textContent = slides.length;
 
 /* ── navigation ─────────────────────────────────────── */
+/* Two screens that share a data-plate are one picture with two captions — 27 and 28 are
+   the same frame, and the deck must not dissolve the art to change the words. So instead
+   of the usual .7s crossfade the words fade out on their own, the plates cut, and the new
+   words rise. The timer is held here and cancelled on every show(), so arrowing through
+   the pair fast lands on the right screen instead of half of two. */
+const PLATE_FADE = 350;     // matches .slide--plate .hold in deck.css
+let plateTimer = null;
+let platePending = null;    // where those 350ms are taking us
+
+/* Land the pending screen now instead of waiting out the fade. A second press during
+   the pair has to count as a second press, so the deck catches up first and then does
+   what was asked — otherwise two taps on 27 would spend one of them on the same move. */
+function flushPlate() {
+  if (platePending === null) return;
+  clearTimeout(plateTimer);
+  slides[i].classList.remove('plate-out');
+  const to = platePending;
+  platePending = null;
+  swap(to);
+}
+
 function show(n) {
   n = Math.max(0, Math.min(slides.length - 1, n));
+  flushPlate();
   if (n === i && slides[n].classList.contains('is-on')) return;
+
   commitNote();               // never lose a half-typed note to an arrow key
+
+  const from = slides[i];
+  const samePlate = from.dataset.plate && from.dataset.plate === slides[n].dataset.plate;
+  if (samePlate && !reduced) {
+    from.classList.add('plate-out');
+    platePending = n;
+    plateTimer = setTimeout(() => { platePending = null; from.classList.remove('plate-out'); swap(n); }, PLATE_FADE);
+    return;
+  }
+  swap(n);
+}
+
+function swap(n) {
   leave(slides[i]);
   i = n;
   slides.forEach((s, k) => s.classList.toggle('is-on', k === n));
@@ -44,7 +82,7 @@ function paint() {
   nextBtn.disabled = i === slides.length - 1;
 }
 
-const go = d => show(i + d);
+const go = d => show((platePending === null ? i : platePending) + d);
 
 /* ── per-slide behaviour ────────────────────────────── */
 function enter(s) {
@@ -161,6 +199,24 @@ function load() {
   catch { return {}; }
 }
 
+/* The paragraphs that used to sit under the story headlines ship in the page as seeds,
+   so a note is already there on a browser that has never seen this deck. A seed is only
+   a default: once an id exists in `notes` the presenter owns it, and an emptied note is
+   stored as "" rather than deleted so clearing one does not bring the seed back. */
+const seeds = (() => {
+  const el = document.getElementById('seednotes');
+  if (!el) return {};
+  try { return JSON.parse(el.textContent) || {}; }
+  catch { return {}; }
+})();
+
+const noteFor = id => (id in notes) ? notes[id] : (seeds[id] || '');
+
+function setNote(id, val) {
+  if (val || id in seeds) notes[id] = val;
+  else delete notes[id];
+}
+
 function persist() {
   try {
     localStorage.setItem(STORE, JSON.stringify(notes));
@@ -213,7 +269,7 @@ function render(src) {
 function paintNote() {
   const id = slideId();
   slideEl.textContent = `${i + 1} · ${slides[i].dataset.chapter || 'Untitled'}`;
-  const src = notes[id] || '';
+  const src = noteFor(id);
   viewEl.innerHTML = render(src) ||
     '<p class="notesempty">No notes on this screen yet. Click here — or press <b>E</b> — to write them.</p>';
   viewEl.scrollTop = 0;
@@ -234,7 +290,7 @@ function toggleNotes(force) {
 
 function startEdit() {
   if (!wantNotes) toggleNotes(true);
-  editEl.value = notes[slideId()] || '';
+  editEl.value = noteFor(slideId());
   editEl.hidden = false;
   viewEl.hidden = true;
   document.body.classList.add('notes-editing');
@@ -246,8 +302,7 @@ function startEdit() {
 function commitNote() {
   if (editEl.hidden) return;
   const id = slideId();
-  const val = editEl.value.trim();
-  if (val) notes[id] = val; else delete notes[id];
+  setNote(id, editEl.value.trim());
   persist();
   editEl.hidden = true;
   viewEl.hidden = false;
@@ -265,8 +320,7 @@ editEl.addEventListener('input', () => {
   clearTimeout(saveTimer);
   stateEl.textContent = 'editing…';
   saveTimer = setTimeout(() => {
-    const id = slideId(), val = editEl.value.trim();
-    if (val) notes[id] = val; else delete notes[id];
+    setNote(slideId(), editEl.value.trim());
     persist();
   }, 600);
 });
@@ -325,9 +379,9 @@ fileEl.addEventListener('change', () => {
 
 document.getElementById('notesclear').addEventListener('click', () => {
   const id = slideId();
-  if (!notes[id]) { flag('nothing to clear here'); return; }
+  if (!noteFor(id)) { flag('nothing to clear here'); return; }
   if (!confirm('Erase the notes on this screen? The others stay.')) return;
-  delete notes[id];
+  setNote(id, '');          // "" and not delete, so a cleared seed stays cleared
   persist();
   if (!editEl.hidden) { editEl.hidden = true; viewEl.hidden = false; document.body.classList.remove('notes-editing'); }
   paintNote();

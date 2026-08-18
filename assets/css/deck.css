@@ -39,6 +39,15 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .slide.is-on{opacity:1;visibility:visible}
 .slide--void{background:var(--ink)}
 
+/* Screens that share a data-plate are the same picture with different words (27 and 28).
+   They must not dissolve into each other, so they cut: no opacity transition, and no Ken
+   Burns either — a plate caught mid-scale would jump on the cut, and two frozen plates are
+   pixel-identical. What moves is the text, out on .plate-out and back in on the usual rise. */
+.slide--plate{transition:none}
+.slide--plate .bg img,.slide--plate .bg video{transform:none;transition:none}
+.slide--plate .hold{transition:opacity .35s var(--ease)}
+.slide--plate.plate-out .hold{opacity:0}
+
 /* ── backgrounds ────────────────────────────────────── */
 .bg{position:absolute;inset:0}
 .bg img,.bg video{
@@ -222,11 +231,14 @@ body.teaser-stuck .teaserplay{display:block}
    pinned to any corner without the column collapsing to shrink-to-fit. */
 .slide--scene .hold{gap:.72rem;align-items:stretch;max-width:none}
 .slide--scene .hold>*{max-width:min(54ch,52%)}
-.slide--scene .hold--bl,
-.slide--scene .hold--br{justify-content:flex-end;padding-bottom:calc(var(--pad) * .9)}
-.slide--scene .hold--tl,
-.slide--scene .hold--tr{justify-content:flex-start;padding-top:calc(var(--pad) * 1.15)}
+.slide--scene .hold--bl,.slide--plate .hold--bl,
+.slide--scene .hold--br,.slide--plate .hold--br{justify-content:flex-end;padding-bottom:calc(var(--pad) * .9)}
+.slide--scene .hold--tl,.slide--plate .hold--tl,
+.slide--scene .hold--tr,.slide--plate .hold--tr{justify-content:flex-start;padding-top:calc(var(--pad) * 1.15)}
 .slide--scene .hold--ml{justify-content:center}
+/* 28 borrows 27's corner, so it has to borrow its width too or the words spill across
+   the frame the two screens are meant to share */
+.slide--plate .hold>*{max-width:min(62ch,60%)}
 /* right-hand lines hang off the right edge and set ragged-left */
 .slide--scene .hold--br,
 .slide--scene .hold--tr{text-align:right}
@@ -242,10 +254,6 @@ body.teaser-stuck .teaserplay{display:block}
   color:var(--cream);
 }
 .sceneline em{font-style:normal;color:var(--gold)}
-.scenenote{
-  font-size:clamp(.92rem,1.2vw,1.1rem);line-height:1.5;
-  color:var(--dim);font-weight:300;max-width:52ch;
-}
 /* the two screens that carry the weight of the act break get a taller line */
 .slide--turn .sceneline{font-size:clamp(2.3rem,5.4vw,4.9rem)}
 .slide--turn .hold>*{max-width:min(62ch,60%)}
@@ -602,11 +610,11 @@ body.time-up::after{
   .hold--left,.hold--right,.hold--bottom{max-width:100%;left:0;right:0}
   .scrim--left,.scrim--right{background:linear-gradient(to top,rgba(8,8,10,.94) 0%,rgba(8,8,10,.7) 40%,rgba(8,8,10,.25) 100%)}
   /* no room to move a line around a phone: every story screen goes back to the bottom */
-  .slide--scene .hold,.slide--turn .hold{
+  .slide--scene .hold,.slide--turn .hold,.slide--plate .hold{
     text-align:left;justify-content:flex-end;
     padding-top:var(--pad);padding-bottom:calc(var(--pad) * .8 + 3.2rem);
   }
-  .slide--scene .hold>*,.slide--turn .hold>*{max-width:100%;margin-left:0}
+  .slide--scene .hold>*,.slide--turn .hold>*,.slide--plate .hold>*{max-width:100%;margin-left:0}
   .scrim--bl,.scrim--br,.scrim--tl,.scrim--tr,.scrim--top{
     background-image:linear-gradient(to top,rgba(8,8,10,.96) 0%,rgba(8,8,10,.82) 34%,rgba(8,8,10,.3) 68%,rgba(8,8,10,0) 100%)}
   /* the back half stacks: words first, evidence under them */

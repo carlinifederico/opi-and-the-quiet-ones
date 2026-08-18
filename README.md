@@ -50,15 +50,20 @@ For a different slot, put the minutes in the URL: `/?clock=5`.
 
 ## Writing the presenter notes
 
-The notes are **not in the source**. They are written in the browser, in the panel itself, and kept
-in that browser's storage under `opi-deck-notes-v1`.
+Notes are written in the browser, in the panel itself, and kept in that browser's storage under
+`opi-deck-notes-v1`. What ships in the source is only a **seed**: the `#seednotes` block at the
+foot of `index.html` carries the sixteen paragraphs that used to sit under the story headlines, so
+a screen already has something to say on a machine that has never opened this deck.
 
 - Press `N` to open the panel, `E` (or click it) to start writing, `Esc` or click away to stop.
 - It saves as you type. The word *saved* appears top-right of the panel when it lands.
 - Formatting is deliberately small, so a note is still readable as plain text in the export file:
   `# heading`, `- bullet`, `**bold**`, `__underline__`, `*italic*`.
 - Notes are keyed to a screen's `data-id`, **not** its position, so inserting or reordering screens
-  never shuffles notes onto the wrong one.
+  never shuffles notes onto the wrong one. The seeds use the same keys.
+- A seed is a default and nothing more. The first time you type over one, your version wins on that
+  browser for good — including when you empty it, which is stored as an empty note rather than as
+  no note, so clearing a seed does not bring it back on the next visit.
 
 Because storage is per-browser, **Export** before you change machines: it downloads every note as
 one JSON file, and **Import** reads it back (same screen id wins, everything else is kept). That
@@ -85,7 +90,7 @@ if you ever want them back.
 | 12–19 | **The story · act one** — Opi watches, and learns |
 | 20–26 | **The story · act two** — Opi intervenes |
 | 27 | **The story · you** — the viewer in front of Opi |
-| 28 | The reflection — on the neutral plate from screen 5 |
+| 28 | The reflection — screen 27's frame again, new words |
 | 29 | The IP — one idea, four outputs |
 | 30 | Where we are |
 | 31 | The plan — three months to a playable prototype |
@@ -101,7 +106,7 @@ open, which is what turns a list of sad scenes into an argument.
 
 | # | Scene | Line |
 |---|---|---|
-| 12 | Simón · the wake | "In their absence." |
+| 12 | Simón · the wake | "Some never chose to be alone." |
 | 13 | Zulma · the crowd | "Sometimes we feel most alone in the middle of a crowd." |
 | 14 | Zulma · the tunnels | This is not her prison. It is her home. |
 | 15 | Lucy · the park | "Some run from others just to find quiet…" |
@@ -123,7 +128,15 @@ the only screen in the story block that carries an eyebrow label. Screen 27 is t
 is the treatment's own last line, and the art is the viewer wearing the headset.
 
 Screen 12 is the only one in the block that names the chapter — a grey, low-opacity
-`The Story ···` top left. The other fifteen are art and one line.
+`The Story ···` top left. The other fifteen are art and one line, and the line is all they are:
+the paragraph that used to sit under each headline is a presenter note now (see above), because in
+seven minutes nobody reads it and it only competes with the painting.
+
+**27 and 28 are one plate.** They carry the same art, the same scrim and the same corner, tagged
+`data-plate="you"`, and the deck cuts between them instead of dissolving: the words fade out, the
+frame does not move, the new words rise. `.slide--plate` turns off the slide's opacity transition
+and the 14-second Ken Burns on both — a plate caught mid-scale would jump on the cut, and two
+frozen plates are pixel-identical. Under `prefers-reduced-motion` the pair simply cuts.
 
 **Where each line sits** is chosen off the painting, not off a rotation: every headline is
 placed in the emptiest, darkest quarter of its own frame. Four placements exist
