@@ -132,11 +132,17 @@ Screen 12 is the only one in the block that names the chapter — a grey, low-op
 the paragraph that used to sit under each headline is a presenter note now (see above), because in
 seven minutes nobody reads it and it only competes with the painting.
 
-**27 and 28 are one plate.** They carry the same art, the same scrim and the same corner, tagged
-`data-plate="you"`, and the deck cuts between them instead of dissolving: the words fade out, the
-frame does not move, the new words rise. `.slide--plate` turns off the slide's opacity transition
-and the 14-second Ken Burns on both — a plate caught mid-scale would jump on the cut, and two
-frozen plates are pixel-identical. Under `prefers-reduced-motion` the pair simply cuts.
+**27 and 28 are one plate.** They carry the same art and the same scrim, tagged `data-plate="you"`,
+and the deck cuts between them instead of dissolving: the words fade out, the frame does not move,
+the new words rise. `.slide--plate` turns off the slide’s opacity transition and the 14-second Ken
+Burns on both — a plate caught mid-scale would jump on the cut, and two frozen plates are
+pixel-identical. Under `prefers-reduced-motion` the pair simply cuts.
+
+What does change is the light and the placement. 28 is a third darker (`.slide--dimmed` sets
+`--plate-dim:.3` on a `.platedim` overlay) and its words are centred rather than in 27’s corner —
+the story is told from the edge of the frame, the argument is said to your face. The light cannot
+step down on the cut either, so `show()` hands the outgoing screen the incoming one’s
+`--plate-dim`, and it dims over the same 350ms the words take to leave, in both directions.
 
 **Where each line sits** is chosen off the painting, not off a rotation: every headline is
 placed in the emptiest, darkest quarter of its own frame. Four placements exist

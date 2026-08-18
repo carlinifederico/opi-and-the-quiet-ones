@@ -34,13 +34,18 @@ const PLATE_FADE = 350;     // matches .slide--plate .hold in deck.css
 let plateTimer = null;
 let platePending = null;    // where those 350ms are taking us
 
+function clearPlate(s) {
+  s.classList.remove('plate-out');
+  s.style.removeProperty('--plate-dim');
+}
+
 /* Land the pending screen now instead of waiting out the fade. A second press during
    the pair has to count as a second press, so the deck catches up first and then does
    what was asked — otherwise two taps on 27 would spend one of them on the same move. */
 function flushPlate() {
   if (platePending === null) return;
   clearTimeout(plateTimer);
-  slides[i].classList.remove('plate-out');
+  clearPlate(slides[i]);
   const to = platePending;
   platePending = null;
   swap(to);
@@ -56,9 +61,10 @@ function show(n) {
   const from = slides[i];
   const samePlate = from.dataset.plate && from.dataset.plate === slides[n].dataset.plate;
   if (samePlate && !reduced) {
+    from.style.setProperty('--plate-dim', getComputedStyle(slides[n]).getPropertyValue('--plate-dim').trim());
     from.classList.add('plate-out');
     platePending = n;
-    plateTimer = setTimeout(() => { platePending = null; from.classList.remove('plate-out'); swap(n); }, PLATE_FADE);
+    plateTimer = setTimeout(() => { platePending = null; clearPlate(from); swap(n); }, PLATE_FADE);
     return;
   }
   swap(n);
